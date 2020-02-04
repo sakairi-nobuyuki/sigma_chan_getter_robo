@@ -9,8 +9,25 @@ import time
 import AA
 import emma_note
 
+def get_gomikasu_tws (tw_api, dancer_name):
+    tws_dict = {}
+    for tweet in tweepy.Cursor (tw_api.user_timeline, screen_name = dancer_name, exclude_replies = True).items():
+        time = datetime.datetime.now ()
+        time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
 
-def get_tw_data (dancer_name, data_file = None):
+        tws_dict[time_ymdhms] = {}
+        tws_dict[time_ymdhms]['attribute']   = 'twifemi'
+        tws_dict[time_ymdhms]['dancer_name'] = dancer_name
+        tws_dict[time_ymdhms]['id']          = tweet.id
+        tws_dict[time_ymdhms]['created_at']  = str (tweet.created_at)
+        tws_dict[time_ymdhms]['text']        = tweet.text.replace('\n','')
+        tws_dict[time_ymdhms]['favorite_count'] = tweet.favorite_count
+        tws_dict[time_ymdhms]['retweet_count']  = tweet.retweet_count
+
+
+    return time_ymdhms, tws_dict
+
+def twitter_keys ():
     import config
 
     ck = config.tw_api_key["consumer_API_key"]
@@ -18,43 +35,38 @@ def get_tw_data (dancer_name, data_file = None):
     at = config.tw_api_key["access_token"]
     ats = config.tw_api_key["access_token_secret"]
 
+    return ck, cs, at, ats
+
+def get_tw_data (dancer_name, data_file = None):
+
+    ck, cs, at, ats = twitter_keys ()
+
     auth = tweepy.OAuthHandler (ck, cs)
     auth.set_access_token (at, ats)
 
     tw_api = tweepy.API (auth, wait_on_rate_limit = True)
 
-
-
-    print ("dancer name is: ", dancer_name)
+    print ("{}という踊り子さんのツイートを取ろうとしているよ。".format (dancer_name))
 
     tws_dict_list = []
-    tws_dict = {}
-    for tweet in tweepy.Cursor (tw_api.user_timeline, screen_name = dancer_name, exclude_replies = True).items():
-        time = datetime.datetime.now ()
-        time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
 
-        tws_dict[time_ymdhms] = {}
-        tws_dict[time_ymdhms]['dancer_name'] = dancer_name
-        tws_dict[time_ymdhms]['id']          = tweet.id
-        tws_dict[time_ymdhms]['created_at']  = str (tweet.created_at)
-        tws_dict[time_ymdhms]['text']        = tweet.text.replace('\n','')
-        tws_dict[time_ymdhms]['favorite_count'] = tweet.favorite_count
-        tws_dict[time_ymdhms]['retweet_count']  = tweet.retweet_count
-        #tws_dict_list.append (tws_dict)
-
-
-
-    #print (tws_dict_list)
-    print (tws_dict)
-
-
-    if len (tws_dict) == 0:
-        print ("残念ながらあなたのように{}について興味を持ってる人はいなかったみたいです。".format (dancer_name))
-
-
-    print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
+    #time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
+    #print ("{}っていうゴミカスのツイートだよ❤：{}".format (tws_dict[str (time_ymdhms)]['dancer_name'], tws_dict[str (time_ymdhms)]['text']))
+    
+ 
+    
     try:
-        file_name = 'test_{}.dat'.format (dancer_name)
+        time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
+        print ("{}っていうゴミカスのツイートだよ❤：{}".format (tws_dict[str (time_ymdhms)]['dancer_name'], tws_dict[str (time_ymdhms)]['text']))
+    except:
+        tws_dict = {}
+        print ("ゴミカスのツイート取れんかった。すまんかった。")
+
+
+    #file_name = 'test_{}.dat'.format (dancer_name)
+    file_name = 'twifemi.dat'
+    try:
+        print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
         if os.path.exists (file_name):
             with open (file_name, 'r', encoding = 'utf-8') as fp_in:
                 tws_dict_last = json.load (fp_in)
@@ -62,14 +74,13 @@ def get_tw_data (dancer_name, data_file = None):
             tws_dict_last = {}
     except:
         file_name = 'test_{}_1.dat'.format (dancer_name)
+        print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
         tws_dict_last = {}
 
     tws_dict.update (tws_dict_last)
 
     with open (file_name, 'w') as fp_out:
         json.dump (tws_dict, fp_out, indent = 4, ensure_ascii = False)
-
-    
     
 
 if __name__ == '__main__':
@@ -77,8 +88,10 @@ if __name__ == '__main__':
     
     #print (get_tw_data (keyword))
 
-    for i in range (3):
+    for i in range (10):
         for twifemi in emma_note.twifemi_list:
             get_tw_data (twifemi)
             print ("going to sleep")
             time.sleep (61)
+
+            ### 1日ikkaiMeCabで形態素解析をして、その度数分布を作る。
