@@ -24,6 +24,7 @@ def get_gomikasu_tws (tw_api, dancer_name):
         tws_dict[tweet.id]['favorite_count'] = tweet.favorite_count
         tws_dict[tweet.id]['retweet_count']  = tweet.retweet_count
 
+
     return time_ymdhms, tws_dict
 
 def twitter_keys ():
@@ -48,14 +49,21 @@ def get_tw_data (dancer_name, data_file = None):
     print ("{}という踊り子さんのツイートを取ろうとしているよ。".format (dancer_name))
 
     tws_dict_list = []
+
+#    time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
+#    print ("ゴミカスのツイートだよ❤：{}", tws_dict)
+    
+ 
     
     try:
         time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
-        print ("{}っていうゴミカスのツイートをとったよ❤：{}".format (dancer_name))
+        print ("ゴミカスのツイートをゲットしたよ❤")
     except:
         tws_dict = {}
         print ("ゴミカスのツイート取れんかった。すまんかった。")
 
+
+    #file_name = 'test_{}.dat'.format (dancer_name)
     file_name = 'twifemi.dat'
     try:
         print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
@@ -85,6 +93,6 @@ if __name__ == '__main__':
         for twifemi in emma_note.twifemi_list:
             get_tw_data (twifemi)
             print ("going to sleep")
-            time.sleep (161)
+            time.sleep (261)
 
             ### 1日ikkaiMeCabで形態素解析をして、その度数分布を作る。
