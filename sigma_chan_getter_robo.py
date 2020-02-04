@@ -15,15 +15,14 @@ def get_gomikasu_tws (tw_api, dancer_name):
         time = datetime.datetime.now ()
         time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
 
-        tws_dict[time_ymdhms] = {}
-        tws_dict[time_ymdhms]['attribute']   = 'twifemi'
-        tws_dict[time_ymdhms]['dancer_name'] = dancer_name
-        tws_dict[time_ymdhms]['id']          = tweet.id
-        tws_dict[time_ymdhms]['created_at']  = str (tweet.created_at)
-        tws_dict[time_ymdhms]['text']        = tweet.text.replace('\n','')
-        tws_dict[time_ymdhms]['favorite_count'] = tweet.favorite_count
-        tws_dict[time_ymdhms]['retweet_count']  = tweet.retweet_count
-
+        tws_dict[tweet.id] = {}
+        tws_dict[tweet.id]['attribute']   = 'twifemi'
+        tws_dict[tweet.id]['dancer_name'] = dancer_name
+        tws_dict[tweet.id]['id']          = tweet.id
+        tws_dict[tweet.id]['created_at']  = str (tweet.created_at)
+        tws_dict[tweet.id]['text']        = tweet.text.replace('\n','')
+        tws_dict[tweet.id]['favorite_count'] = tweet.favorite_count
+        tws_dict[tweet.id]['retweet_count']  = tweet.retweet_count
 
     return time_ymdhms, tws_dict
 
@@ -49,21 +48,14 @@ def get_tw_data (dancer_name, data_file = None):
     print ("{}という踊り子さんのツイートを取ろうとしているよ。".format (dancer_name))
 
     tws_dict_list = []
-
-    #time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
-    #print ("{}っていうゴミカスのツイートだよ❤：{}".format (tws_dict[str (time_ymdhms)]['dancer_name'], tws_dict[str (time_ymdhms)]['text']))
-    
- 
     
     try:
         time_ymdhms, tws_dict = get_gomikasu_tws (tw_api, dancer_name)
-        print ("{}っていうゴミカスのツイートだよ❤：{}".format (tws_dict[str (time_ymdhms)]['dancer_name'], tws_dict[str (time_ymdhms)]['text']))
+        print ("{}っていうゴミカスのツイートをとったよ❤：{}".format (dancer_name))
     except:
         tws_dict = {}
         print ("ゴミカスのツイート取れんかった。すまんかった。")
 
-
-    #file_name = 'test_{}.dat'.format (dancer_name)
     file_name = 'twifemi.dat'
     try:
         print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
@@ -77,6 +69,7 @@ def get_tw_data (dancer_name, data_file = None):
         print ("{}なんていうファイルはあるかないかわからないなあ{}".format (file_name, os.path.exists (file_name)))
         tws_dict_last = {}
 
+    ####  辞書のupdateではなくて、ツイートのidが被ってたら消す。
     tws_dict.update (tws_dict_last)
 
     with open (file_name, 'w') as fp_out:
@@ -92,6 +85,6 @@ if __name__ == '__main__':
         for twifemi in emma_note.twifemi_list:
             get_tw_data (twifemi)
             print ("going to sleep")
-            time.sleep (61)
+            time.sleep (161)
 
             ### 1日ikkaiMeCabで形態素解析をして、その度数分布を作る。
