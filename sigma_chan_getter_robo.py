@@ -80,6 +80,8 @@ def get_tw_data (dancer_name, data_file = None):
     ####  辞書のupdateではなくて、ツイートのidが被ってたら消す。
     tws_dict.update (tws_dict_last)
 
+
+    ### pickleで圧縮したい。
     with open (file_name, 'w') as fp_out:
         json.dump (tws_dict, fp_out, indent = 4, ensure_ascii = False)
     
@@ -96,3 +98,5 @@ if __name__ == '__main__':
             time.sleep (261)
 
             ### 1日ikkaiMeCabで形態素解析をして、その度数分布を作る。
+
+            
