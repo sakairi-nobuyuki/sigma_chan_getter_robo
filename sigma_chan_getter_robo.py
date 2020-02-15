@@ -5,14 +5,47 @@ import pickle
 import json
 import datetime
 import time
+import collections
+
+import pandas as pd 
 
 import tweepy
 
 import morphology_analysis
 import AA
 import emma_note
+import dont_list
 
 FILE_NAME_TW_FEMI_BASE = "twifemi"
+
+
+
+def twitter_keys ():
+    import config
+
+    ck = config.tw_api_key["consumer_API_key"]
+    cs = config.tw_api_key["consumer_API_secret_key"]
+    at = config.tw_api_key["access_token"]
+    ats = config.tw_api_key["access_token_secret"]
+
+    return ck, cs, at, ats
+
+def get_keyword_related_tws (tw_api, keyword):
+    tws_dict = {}
+    for tweet in tweepy.Cursor (tw_api.search, q = keyword, exclude_replies = True).items():
+        time = datetime.datetime.now ()
+        time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
+
+        tws_dict[tweet.id] = {}
+        tws_dict[tweet.id]['attribute']   = 'search_{}'.format (keyword)
+        tws_dict[tweet.id]['dancer_name'] = dancer_name
+        tws_dict[tweet.id]['id']          = tweet.id
+        tws_dict[tweet.id]['created_at']  = str (tweet.created_at)
+        tws_dict[tweet.id]['text']        = tweet.text.replace('\n','')
+        tws_dict[tweet.id]['favorite_count'] = tweet.favorite_count
+        tws_dict[tweet.id]['retweet_count']  = tweet.retweet_count
+
+    return time_ymdhms, tws_dict
 
 
 def get_gomikasu_tws (tw_api, dancer_name):
@@ -30,20 +63,11 @@ def get_gomikasu_tws (tw_api, dancer_name):
         tws_dict[tweet.id]['favorite_count'] = tweet.favorite_count
         tws_dict[tweet.id]['retweet_count']  = tweet.retweet_count
 
-
     return time_ymdhms, tws_dict
 
-def twitter_keys ():
-    import config
 
-    ck = config.tw_api_key["consumer_API_key"]
-    cs = config.tw_api_key["consumer_API_secret_key"]
-    at = config.tw_api_key["access_token"]
-    ats = config.tw_api_key["access_token_secret"]
 
-    return ck, cs, at, ats
-
-def get_tw_data (dancer_name, file_path_base = None):
+def store_dancers_tw_data (dancer_name, file_path_base = None):
 
     ck, cs, at, ats = twitter_keys ()
 
@@ -84,33 +108,34 @@ def get_tw_data (dancer_name, file_path_base = None):
         json.dump (tws_dict, fp_out, indent = 4, ensure_ascii = False)
     return file_path
 
+def get_command_line ():
+    import argparse
+
+    parser = argparse.ArgumentParser (description = 'ゴミカスのツイートをゲットして形態素解析するゲスなプログラムだよ。')
+
+    parser.add_argument ('--skip_tweet_get', action = 'store_true')
+
+    args = parser.parse_args ()
+
+    return args
+
 if __name__ == '__main__':
     AA.print_tantsubo ()
 
+    args = get_command_line ()
     ma = morphology_analysis.MorphAnalysis ()
+    dl = dont_list.DontList ()
+    print (dl.simple)
     #print (get_tw_data (keyword))
 
     out_path_list = []
-#    for i in range (10):
-#        for dancer_name in emma_note.twifemi_list:
-#            out_path = get_tw_data (dancer_name, FILE_NAME_TW_FEMI_BASE)
-#            out_path_list.append[out_path]
-#            print ("going to sleep")
-#            time.sleep (61)
+    for i in range (10):
+        if args.skip_tweet_get == True:  break
+        for dancer_name in emma_note.twifemi_list:
+            out_path = store_dancers_tw_data (dancer_name, FILE_NAME_TW_FEMI_BASE)
+            if len (out_path) > 0:  out_path_list.append(out_path)
+            print ("going to sleep")
+            time.sleep (61)
             
             
     
-    ### 1日ikkaiMeCabで形態素解析をして、その度数分布を作る。
-    extr_path_list = glob.glob ('./*dat', recursive =True)
-    print (extr_path_list)
-
-    aggr_dict = {}
-    for extr_path in extr_path_list:
-        with open (extr_path, 'r')as fp_in:
-            extr_dict = json.load (fp_in)
-        
-        for extr in extr_dict.values ():
-            parsed_text = ma.parse_text (extr['text'])
-            for i_str in range (int (parsed_text['length'])):
-                print (parsed_text[i_str]['string'], parsed_text[i_str]['POS'])
-                aggr_dict[parsed_text[i_str]['string']] = 1
