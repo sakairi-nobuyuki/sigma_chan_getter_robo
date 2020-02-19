@@ -42,10 +42,11 @@ def twitter_keys ():
 def get_keyword_related_tws (tw_api, keyword):
     print ("keyword is {}".format (keyword))
     tws_dict = {}
+    i_tw = 0
     for tweet in tweepy.Cursor (tw_api.search, q = keyword, exclude_replies = True).items():
         time = datetime.datetime.now ()
         time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
-
+        i_tw += 1
         tws_dict[tweet.id] = {}
         tws_dict[tweet.id]['attribute']   = 'search_{}'.format (keyword)
         tws_dict[tweet.id]['user_name']   = tweet.user.name
@@ -54,7 +55,9 @@ def get_keyword_related_tws (tw_api, keyword):
         tws_dict[tweet.id]['text']        = tweet.text.replace('\n','')
         tws_dict[tweet.id]['favorite_count'] = tweet.favorite_count
         tws_dict[tweet.id]['retweet_count']  = tweet.retweet_count
-        print ("in dict: {}".format (tws_dict[tweet.id]))
+        print ("in dict: {}, {} th tw".format (tws_dict[tweet.id], i_tw))
+        if i_tw > 1000:
+            break
         #print ("tweet id: {}, tweet text: {}".format (tweet.id, tweet.text))
     return time_ymdhms, tws_dict
 
