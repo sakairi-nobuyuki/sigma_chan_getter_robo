@@ -3,7 +3,7 @@ import glob
 import datetime
 import pickle
 import json
-import datetime
+from datetime import datetime, timedelta, date
 import time
 import collections
 
@@ -112,8 +112,14 @@ def get_gomikasu_tws (tw_api, dancer_name):
     tws_dict = {}
     for tweet in tweepy.Cursor (tw_api.user_timeline, screen_name = dancer_name, exclude_replies = True).items():
         time = datetime.datetime.now ()
-        time_ymdhms = time.strftime ('%Y%m%d%H%M%S') 
-
+        time_ymdhms = time.strftime ('%Y%m%d%H%M%S')
+        today     = datetime.today ()
+        yesterday = today - timedelta (days = 1)
+        if str (datetime.strftime (today, '%F')) in str (tweet.created_at) or str (datetime.strftime (yesterday, '%F')) in str (tweet.created_at):
+            print ('今日のだからゲット')
+        else:
+            print ('昔のだからパス', str (time.strftime ('%F')), str (tweet.created_at))
+            continue
         tws_dict[tweet.id] = {}
         tws_dict[tweet.id]['attribute']   = 'twifemi'
         tws_dict[tweet.id]['dancer_name'] = dancer_name
@@ -189,15 +195,6 @@ if __name__ == '__main__':
     #print (get_tw_data (keyword))
 
     
-    out_path_list = []
-    for i in range (10):
-        if args.skip_tweet_get == True:  break
-        for keyword in emma_note.keywords:
-            out_path = store_keyword_related_tw_data (keyword)
-            if len (out_path) > 0:  out_path_list.append(out_path)
-            print ("going to sleep")
-            time.sleep (61)
-
 
     out_path_list = []
     for i in range (10):
@@ -210,3 +207,12 @@ if __name__ == '__main__':
             
             
     
+    out_path_list = []
+    for i in range (10):
+        if args.skip_tweet_get == True:  break
+        for keyword in emma_note.keywords:
+            out_path = store_keyword_related_tw_data (keyword)
+            if len (out_path) > 0:  out_path_list.append(out_path)
+            print ("going to sleep")
+            time.sleep (61)
+

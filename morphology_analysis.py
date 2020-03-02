@@ -8,13 +8,18 @@ class MorphAnalysis:
     def __init__ (self):
         self.tagger = MeCab.Tagger ("-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd")
         print ("load dictionary for MeCab")
-
+        self.dont_list = [' ', '#', '(', ')', '.', '/', ':', '://', '@', 'EOS', '（', '）', ',', '.', '、', '。']
         #text = '今日はいい天気だなあ'
 
-    def parse_text_to_words (self, text):
+    def parse_text_to_words (self, text, exclude_dont_list = False):
         parsed_as_is = self.tagger.parse (text)
         parsed_in_line_list = parsed_as_is.split ('\n')
-        words = [parsed_in_line.split ('\t')[0] for parsed_in_line in parsed_in_line_list]
+        if exclude_dont_list:
+            words = [parsed_in_line.split ('\t')[0] for parsed_in_line in parsed_in_line_list if parsed_in_line.split ('\t')[0] not in self.dont_list]
+            #print ("exclude dont list")
+        else:
+            words = [parsed_in_line.split ('\t')[0] for parsed_in_line in parsed_in_line_list]
+            #print ("include dont list")
 
         return words
         
@@ -88,6 +93,22 @@ class MorphAnalysis:
 
         return aggr_dict_list
 
+    def reduce_RT_url_from_text_to_parse (self, text_to_parse):
+        if re.match (r'https:', text_to_parse):
+            print ("URL attached text: {}".format (text_to_parse))
+            text_to_parse = re.sub (r'(.*)(https://[a-zA-Z/.]+)(.*)', r'\1 \3', text_to_parse)
+            print ("URL reduced text:  {}".format (text_to_parse))
+
+        return text_to_parse
+
+    def reduce_TR_notice_from_text_to_parse (self, text_to_parse):
+        while (re.match (r'RT @[a-zA-Z0-9_-]+', text_to_parse)):
+            #if re.match (r'RT @[a-zA-Z0-9_-]+', text_to_parse):
+            print ("RT@ added text: {}".format (text_to_parse))
+            text_to_parse = re.sub (r'(.*)(RT @[a-zA-Z0-9_-]+)(.*)', r'\1 \3', text_to_parse)
+            print ("RT@ redced text: {}".format (text_to_parse))
+        return text_to_parse
+
 
 if __name__ == '__main__':
     """
@@ -124,7 +145,7 @@ if __name__ == '__main__':
         i_count = 0
         word_dist_series_list = []
         tf_series_list = []
-        print ("get tf-idf")
+        print ("get tf-idf of {}".format (extr_path))
 
         for extr in extr_dict.values ():
             if extr['dancer_name'] != '29nikunikuniku':  continue
@@ -137,19 +158,12 @@ if __name__ == '__main__':
             print ("tf process in {}'s tweet of \"{}\"".format (extr['dancer_name'], extr['text']))
             text_to_parse = extr['text']
             ### 引用ツイートのURLを除外
-            if re.match (r'https:', text_to_parse):
-                print ("URL attached text: {}".format (text_to_parse))
-                text_to_parse = re.sub (r'(.*)(https://[a-zA-Z/.]+)(.*)', r'\1 \3', text_to_parse)
-                print ("URL reduced text:  {}".format (text_to_parse))
+            text_to_parse = ma.reduce_RT_url_from_text_to_parse (text_to_parse)
             ### RTのあれを除外
-            while (re.match (r'RT @[a-zA-Z0-9_-]+', text_to_parse)):
-            #if re.match (r'RT @[a-zA-Z0-9_-]+', text_to_parse):
-                print ("RT@ added text: {}".format (text_to_parse))
-                text_to_parse = re.sub (r'(.*)(RT @[a-zA-Z0-9_-]+)(.*)', r'\1 \3', text_to_parse)
-                print ("RT@ redced text: {}".format (text_to_parse))
+            text_to_parse = ma.reduce_TR_notice_from_text_to_parse (text_to_parse)
 
-            i_count += 1
-            molphed_tweet = ma.parse_text_to_words (text_to_parse)
+            #i_count += 1
+            molphed_tweet = ma.parse_text_to_words (text_to_parse, exclude_dont_list = True)
             #print (extr['text'], molphed_tweet)
             word_dist_series = pd.Series (molphed_tweet, name = extr['id']).value_counts ()
             #word_dist_series_list.append (word_dist_series)
@@ -161,6 +175,9 @@ if __name__ == '__main__':
             print ("in {}'s \"{}\", length of molphed: {}, total counts: {}".format (extr['dancer_name'], text_to_parse, len (molphed_tweet), word_dist_series.sum ()))
             #if i_count > 3: break
         #word_dist_df = pd.concat (word_dist_series_list, axis = 1, join = 'outer')
+        if len (tf_series_list) < 1:
+            print ("この日は{}さんは呟いてなかったみたいです。プライベートで何かあったんでしょうか？".format (extr['dancer_name']))
+            break
         tf_df        = pd.concat (tf_series_list, axis = 1, join = 'outer')
         #print (word_dist_df, word_dist_df.info ())
         print ("tf finished")
@@ -177,24 +194,14 @@ if __name__ == '__main__':
         print ("tf-idf in process")
         for _, tf_series_fillna in tf_df_fillna.iteritems ():
             tf_idf_series = tf_series_fillna / idf_series
+            tf_idf_series.name = tf_series_fillna.name
             tf_idf_series_list.append (tf_idf_series)
         tf_idf_df = pd.concat (tf_idf_series_list, axis = 1, join = 'outer')
         print ("id idf dayo\n", tf_idf_df)
 
-#        for item_tf_idf in tf_idf_df.iteritems ():
-#            print (item_tf_idf.sort_values ())
-
-        exit ()
 
 
+        #exit ()
 
-#        for tf_sub in tf_df.iterrows ():
-#            print (tf_sub.count ())
-#            tf_df[tf_sub]
-        #aggr_dict_list = ma.aggrigate_molphed_tweets (extr_dict, dl)
-        out_path = extr_path + 'out.dat'        
-        #with open (out_path, 'w', encoding = 'utf_8') as fp_out:
-            #json.dump (aggr_dict, fp_out, indent = 4, ensure_ascii = False)
-            #json.dump (aggr_dict_list, fp_out, indent = 4, ensure_ascii = False)
 
 
