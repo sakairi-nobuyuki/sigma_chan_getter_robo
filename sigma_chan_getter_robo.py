@@ -111,12 +111,12 @@ def store_keyword_related_tw_data (keyword, file_path_base = None):
 def get_gomikasu_tws (tw_api, dancer_name):
     tws_dict = {}
     for tweet in tweepy.Cursor (tw_api.user_timeline, screen_name = dancer_name, exclude_replies = True).items():
-        time = datetime.datetime.now ()
-        time_ymdhms = time.strftime ('%Y%m%d%H%M%S')
+        time_today = datetime.now ()
+        time_ymdhms = time_today.strftime ('%Y%m%d%H%M%S')
         today     = datetime.today ()
         yesterday = today - timedelta (days = 1)
         if str (datetime.strftime (today, '%F')) in str (tweet.created_at) or str (datetime.strftime (yesterday, '%F')) in str (tweet.created_at):
-            print ('今日のだからゲット')
+            print ('今日のだからゲット:', tweet.text.replace('\n',''))
         else:
             print ('昔のだからパス', str (time.strftime ('%F')), str (tweet.created_at))
             continue
