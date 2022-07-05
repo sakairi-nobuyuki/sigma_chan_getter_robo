@@ -6,6 +6,8 @@ authors = ["sakairi-nobuyuki <SAKAIRI.Nobuyuki@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+pytest = "^7.1.2"
+tweepy = "^4.10.0"
 
 [tool.poetry.dev-dependencies]
 
