@@ -17,6 +17,8 @@ class TestInitializeTweetGetterInstance:
 
         tweets = api.home_timeline()
 
+        print(type(tweets))
+        
         assert len(tweets) > 0
 
         
