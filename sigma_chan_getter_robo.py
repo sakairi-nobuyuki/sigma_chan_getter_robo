@@ -22,7 +22,7 @@ def get_tw_data (keyword, data_file = None):
 
     tws_list = []
     
-    q = q + ' -filter:retweets'
+#    q = q + ' -filter:retweets'
     print (q)
     getter_res = pd.DataFrame (columns = ['user_id', 'user_name', 'user_screen_name', 'user_profile_image_url', \
         'tweet_id', 'tweet_full_text', 'tweet_fav_count', 'tweet_ceated_at'])
@@ -42,7 +42,7 @@ def get_tw_data (keyword, data_file = None):
         #    #'tweet_ceated_at': tw.created_at + timedelta (hours=+9)})
         #    'tweet_ceated_at': tw.created_at}, ignore_index = True)
         getter_append_sr = pd.Series ([tw.user.id, tw.user.name, tw.user.screen_name, tw.user.profile_image_url.replace ('_normal', ''), \
-            tw.id, tw.full_text, tw.favorite_count, tw.created_at], index = getter_res.columns)
+            tw.id, tw.full_text, tw.favorite_count, tw.created_at, tw.place], index = getter_res.columns)
         getter_res = getter_res.append (getter_append_sr, ignore_index = True)
         print (tw.full_text)
         print ("Series to append: ", getter_append_sr)
