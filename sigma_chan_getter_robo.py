@@ -1,3 +1,5 @@
+import os
+import pandas as pd
 import tweepy
 import datetime
 
@@ -19,20 +21,47 @@ def get_tw_data (keyword, data_file = None):
     q = keyword
 
     tws_list = []
-
+    
+#    q = q + ' -filter:retweets'
     print (q)
-
-    for tw in tweepy.Cursor (tw_api.search, q = q, count = 100, tweet_mode = 'extended').items ():
-        #print (tw.full_text)
+    getter_res = pd.DataFrame (columns = ['user_id', 'user_name', 'user_screen_name', 'user_profile_image_url', \
+        'tweet_id', 'tweet_full_text', 'tweet_fav_count', 'tweet_ceated_at'])
+    
+    tws = tweepy.Cursor (tw_api.search, q = q, tweet_mode = 'extended').items ()        
+    #tweepy.Cursor (tw_api.search, q = q, count = 10, tweet_mode = 'extended').items ()        
+    #for tw in tweepy.Cursor (tw_api.search, q = q, count = 10, tweet_mode = 'extended').items ():
+    for tw in tws:
+        #getter_res.append ({
+        #    'user_id': tw.user.id, 
+        #    'user_name': tw.user.name, 
+        #    'user_screen_name': tw.user.screen_name, 
+        #    'user_profile_image_url': tw.user.profile_image_url.replace ('_normal', ''), 
+        #    'tweet_id': tw.id, 
+        #    'tweet_full_text': tw.full_text, 
+        #    'tweet_fav_count': tw.favorite_count, 
+        #    #'tweet_ceated_at': tw.created_at + timedelta (hours=+9)})
+        #    'tweet_ceated_at': tw.created_at}, ignore_index = True)
+        getter_append_sr = pd.Series ([tw.user.id, tw.user.name, tw.user.screen_name, tw.user.profile_image_url.replace ('_normal', ''), \
+            tw.id, tw.full_text, tw.favorite_count, tw.created_at, tw.place], index = getter_res.columns)
+        getter_res = getter_res.append (getter_append_sr, ignore_index = True)
+        print (tw.full_text)
+        print ("Series to append: ", getter_append_sr)
+        print ("getter result:    ", getter_res)
         tws_list.append (tw.full_text + '\n')
+    print (getter_res)
 
-        file_name = 'test.dat'
+    
 
     if len (tws_list) == 0:
         print ("残念ながらあなたのように{}について興味を持ってる人はいなかったみたいです。".format (q))
+    
+    print ("ゲットしました。datに保存します。")
+    
+    file_name = 'test.dat'
 
-    with open (file_name, 'w', encoding = 'utf-8') as fp_out:
-        fp_out.writelines (tws_list)
+    getter_res.to_csv (file_name, encoding='utf-8')
+    #with open (file_name, 'w', encoding = 'utf-8') as fp_out:
+    #    fp_out.writelines (tws_list)
 
     #print (tws_list)
 
