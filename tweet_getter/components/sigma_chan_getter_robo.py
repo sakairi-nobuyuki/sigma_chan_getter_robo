@@ -72,6 +72,7 @@ def store_keyword_related_tw_data (keyword, file_path_base = None):
     tw_api = tweepy.API (auth, wait_on_rate_limit = True)
 
     print ("{}というキーワードのツイートを取ろうとしているよ。".format (keyword))
+    
 
     tws_dict_list = []
     try:
