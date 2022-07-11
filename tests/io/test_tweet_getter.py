@@ -21,4 +21,4 @@ class TestInitializeTweetGetterInstance:
         
         assert len(tweets) > 0
 
-        
+    

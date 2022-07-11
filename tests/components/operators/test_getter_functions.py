@@ -11,8 +11,14 @@ class TestGetterFunctions:
         credentials = GetterRoboCredentials()
         api = initialize_tweet_getter_instance(credentials)
 
-        for item in get_tweets_by_keyword(api, "おじさん"):
-            print(item.text)
+        assert isinstance(get_tweets_by_keyword(api, "おじさん"), tweepy.cursor.ItemIterator)
+        assert isinstance(get_tweets_by_dancer_name(api, ""), tweepy.cursor.ItemIterator)
 
-        for item in get_tweets_by_dancer_name(api, ""):
-            print(item.text)
+    def test_get_friends(self):
+        credentials = GetterRoboCredentials()
+        api = initialize_tweet_getter_instance(credentials)
+
+        friends = get_friends(api)
+
+        assert isinstance(friends, tweepy.cursor.ItemIterator)
+        
