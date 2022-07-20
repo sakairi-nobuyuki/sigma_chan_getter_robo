@@ -22,3 +22,9 @@ class TestGetterFunctions:
 
         assert isinstance(friends, tweepy.cursor.ItemIterator)
         
+
+        friends_id_list = get_friends_id_list(api)
+
+        print(friends_id_list)
+
+        assert len(friends_id_list) > 0
