@@ -12,7 +12,7 @@ class GetterRoboCredentials:
     access_token_secret: str
 
     def __init__ (self):
-        key_path = ".key/credentials.json" 
+        key_path = "../.key/credentials.json" 
 
         if not os.path.exists(key_path):
             raise FileExistsError(f"Credential file is not found.")
