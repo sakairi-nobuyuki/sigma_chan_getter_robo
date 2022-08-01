@@ -8,6 +8,7 @@ import sqlalchemy.ext.declarative
 from getter_robo_db import DatabaseOperator
 
 from getter_robo_db import Base, Engine
+from getter_robo_db.models import JobId
 
 
 import pytest
@@ -19,23 +20,23 @@ class TestDatabaseOperator:
 
         assert isinstance(db, DatabaseOperator)
 
-#    def test_print_keys(self):
-#        db = DatabaseOperation()
-#        res_dict = {"type": "hoge", "name": "hoge", "value": 1.0, "source": "fuga"}
-#        columns_list = db._get_columns()
+    def test_print_keys(self):
+        db = DatabaseOperator()
+        columns_list = db._get_columns()
         
-#        assert len(columns_list) > 0
+        print("  table columns: ", columns_list)
 
-#        res = db.load_inference_results_model(res_dict)
+        assert len(columns_list) > 0
 
-        #assert isinstance(res, InferenceResultsModel)
-        #assert res.type == res_dict["type"]
-        #assert res.name == res_dict["name"]
+        tweet_ids = db.create_job_id_data("hoge")
+
+        assert isinstance(tweet_ids, JobId)
+        assert tweet_ids.tweet_id == "hoge"
 
 
-    #def test_insert(self):
-    #    db = DatabaseOperation()
-    #    res_dict = {"type": "hoge", "name": "hoge", "value": 1.0, "source": "fuga"}
-    #    res = db.load_inference_results_model(res_dict)
-    #    db.insert(res)
+    def test_insert(self):
+        db = DatabaseOperator()
+        tweet_ids = db.create_job_id_data("hoge")
+
+        db.insert(tweet_ids)
 
