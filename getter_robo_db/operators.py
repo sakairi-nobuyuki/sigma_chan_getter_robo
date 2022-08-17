@@ -43,6 +43,10 @@ class DatabaseOperator:
         self.session.add(instance=res)
         self.session.commit()
 
+    def get_latest_tweet_id(self) -> str:
+        """Get latest weet id in the table"""
+        job_id_list = self.session.query(JobId).all()
+
 
     def _validate_model(self, inp: dict) -> None:
         input_model_key = inp.keys()

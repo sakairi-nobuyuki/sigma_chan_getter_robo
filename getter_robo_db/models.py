@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from settings import Engine, Base
-#from getter_robo_db.settings import Engine, Base
+#from settings import Engine, Base
+from getter_robo_db.settings import Engine, Base
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 
