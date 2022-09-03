@@ -25,8 +25,10 @@ ENV PATH $HOME/.poetry/bin:$PATH
 ### install python modules
 #EXPOSE 80
 
-COPY . $HOME
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi
-
 ENV PATH $HOME/.local/bin:$PATH
+
+COPY . $HOME
+#RUN poetry config virtualenvs.create false
+#RUN poetry install --no-interaction --no-ansi
+
+

@@ -8,8 +8,10 @@ import sqlalchemy.ext.declarative
 
 import datetime
 #from models import InferenceResultsModel
-from getter_robo_db.models import JobId
-from getter_robo_db.settings import Engine, Base
+from database.models import JobId
+from database.settings import Engine, Base
+#from getter_robo_db.database.models import JobId
+#from getter_robo_db.database.settings import Engine, Base
 #from settings import Engine, Base
 
 
