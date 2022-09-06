@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+
+
 ### add a non-root user
 RUN apt update && apt install sudo
 ARG USERNAME=sigma_chan && GROUPNAME=user && UID=1000 && GID=1000 
@@ -12,23 +14,23 @@ RUN groupadd -g $GID $GROUPNAME && \
 USER $USERNAME
 WORKDIR $HOME
 
+### Configure the environment
+ENV POETRY_VERSION=1.2.0rc1 \
+    POETRY_HOME=$HOME
 
-### install python
-RUN sudo apt install --no-install-recommends -y python3.8 python3-pip python3.8-dev default-libmysqlclient-dev build-essential
+### install python and poetry
+RUN sudo apt install --no-install-recommends -y python3.8 python3-pip python3.8-dev \
+    python3-setuptools python3-pip python3-distutils curl\
+    default-libmysqlclient-dev build-essential && \
+    sudo update-alternatives --install /usr/local/bin/python python /usr/bin/python3.8 1 && \
+    sudo pip install --upgrade pip
 
-### install poetry
-RUN sudo apt install --no-install-recommends -y curl && \
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
-ENV PATH $HOME/.poetry/bin:$PATH
-
-
-### install python modules
-#EXPOSE 80
-
-ENV PATH $HOME/.local/bin:$PATH
+ENV PATH $PATH:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$PATH
 
 COPY . $HOME
-#RUN poetry config virtualenvs.create false
-#RUN poetry install --no-interaction --no-ansi
 
-
+### install packages
+RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python -  && \
+    poetry config virtualenvs.create false && \
+    poetry export -f requirements.txt --output requirements.txt --without-hashes && \
+    pip install -r requirements.txt --user --no-deps

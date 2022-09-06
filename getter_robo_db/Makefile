@@ -35,6 +35,10 @@ clear_container:
 	docker rm $(CONTAINER_NAME)
 clear_image:
 	docker rmi $(IMAGE_NAME):$(IMAGE_TAG)
+clear_all_images:
+	docker images -aq | xargs docker rmi
+clrea_all_containers:
+	docker ps -aq | xargs docker stop
 
 start_dev_container:
 	docker run --name $(DEV_CONTAINER_NAME) -v $(PWD):/home/sigma_chan $(CONTAINER_START_FLAG) $(DEV_IMAGE_NAME):$(IMAGE_TAG) $(CONTAINER_ATTACH_FLAG)
