@@ -37,7 +37,7 @@ clear_image:
 	docker rmi $(IMAGE_NAME):$(IMAGE_TAG)
 clear_all_images:
 	docker images -aq | xargs docker rmi
-clrea_all_containers:
+clear_all_containers:
 	docker ps -aq | xargs docker stop
 
 start_dev_container:
