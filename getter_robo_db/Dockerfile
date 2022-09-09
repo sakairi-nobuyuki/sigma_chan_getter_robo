@@ -1,6 +1,19 @@
+###################################
+### First stage build for mysql ###
+###################################
+FROM mysql
+
+### port setting
+EXPOSE 3306
+
+### Copying setting files
+COPY ./my.cnf /etc/mysql/conf.d/my.cnf
+
+####################################
+### Second stage build for mysql ###
+####################################
+
 FROM ubuntu:20.04
-
-
 
 ### add a non-root user
 RUN apt update && apt install sudo

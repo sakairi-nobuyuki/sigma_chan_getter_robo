@@ -1,0 +1,5 @@
+__pycache__/
+sigma_chan_db/sigma_chan_db/db/data
+sigma_chan_db/sigma_chan_db/db/my.conf
+sigma_chan_db/db/db/data
+sigma_chan_db/db/db/my.conf
