@@ -1,0 +1,8 @@
+__pycache__/
+
+getter_robo_db/sigma_chan_db/*
+getter_robo_db/sigma_chan_db/sigma_chan_db/db/
+getter_robo_db/sigma_chan_db/sigma_chan_db/db/data/auto.cnf
+sigma_chan_db/
+*/sql/
+*conf
