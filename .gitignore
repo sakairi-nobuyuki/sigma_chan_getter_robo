@@ -6,3 +6,6 @@ db_oparators/migration
 sigma_chan_db/db/data
 sigma_chan_db/db/sql/
 sigma_chan_db/db/my.conf
+sigma_chan_db/sigma_chan_db/db/data
+sigma_chan_db/sigma_chan_db/db/sql/
+sigma_chan_db/sigma_chan_db/db/my.conf

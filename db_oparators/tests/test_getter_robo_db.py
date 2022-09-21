@@ -1,14 +1,11 @@
 # coding: utf-8
 
-import sqlalchemy
 import sqlalchemy.ext.declarative
 
+from database import DatabaseOperator
 
-
-from getter_robo_db import DatabaseOperator
-
-from getter_robo_db import Base, Engine
-from getter_robo_db.models import JobId
+from database import Base, Engine
+from database.models import JobId
 
 
 import pytest
