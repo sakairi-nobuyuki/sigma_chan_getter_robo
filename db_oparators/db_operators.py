@@ -14,9 +14,13 @@ def insert_tweet_id(tweet_id: str) -> None:
     
     db.insert(tweet_ids)
 
-@app.command("get_latest")
+@app.command("get-latest-query")
 def get_latest_tweet_id() -> str:
-    pass
+    db = DatabaseOperator()
+
+    tweet_id = db.get_latest_query().tweet_id
+
+    return tweet_id
 
 
 if __name__ == "__main__":
