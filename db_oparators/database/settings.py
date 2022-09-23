@@ -5,14 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-#USER_NAME = "sigma_chan"
 USER_NAME = "docker"
-#PASSWD = "yz22714n"
 PASSWD = "docker"
-#HOST = "localhost"
 HOST = "127.0.0.1:3306"
-#DB_NAME = "getter_db"
-DB_NAME = "test_db"
+DB_NAME = "getter_db"
 
 DATABASE = f'mysql://{USER_NAME}:{PASSWD}@{HOST}/{DB_NAME}?charset=utf8'
 

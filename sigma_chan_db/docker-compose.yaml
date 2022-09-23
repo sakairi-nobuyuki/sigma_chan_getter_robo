@@ -3,10 +3,10 @@ version: '3'
 services:
   db:
     image: mysql:5.7
-    container_name: getter_db_host
+    container_name: getter-db-host
     environment:
       MYSQL_ROOT_PASSWORD: root  # root user password
-      MYSQL_DATABASE: test_db    # db name created initially
+      MYSQL_DATABASE: getter_db  # db name created initially
       MYSQL_USER: docker         # user named as docker
       MYSQL_PASSWORD: docker     # password for docker
       TZ: 'Asia/Tokyo'           # timezone seetting in a conainer

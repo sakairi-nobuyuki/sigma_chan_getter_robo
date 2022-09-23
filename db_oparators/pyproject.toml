@@ -10,6 +10,7 @@ mysqlclient = "^2.1.1"
 SQLAlchemy = "^1.4.39"
 pytest = "^7.1.2"
 alembic = "^1.8.1"
+typer = "^0.6.1"
 
 [tool.poetry.dev-dependencies]
 

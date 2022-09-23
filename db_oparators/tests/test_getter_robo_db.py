@@ -1,7 +1,5 @@
 # coding: utf-8
 
-import sqlalchemy.ext.declarative
-
 from database import DatabaseOperator
 
 from database import Base, Engine
@@ -37,3 +35,13 @@ class TestDatabaseOperator:
 
         db.insert(tweet_ids)
 
+    def test_get_latest_tweet_id(self) -> str:
+        db = DatabaseOperator()
+        
+        row = db.get_latest_query()
+
+        print("selected db", row)
+        print(row.job_id)
+
+        assert row is not None
+        

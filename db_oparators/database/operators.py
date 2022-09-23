@@ -45,9 +45,17 @@ class DatabaseOperator:
         self.session.add(instance=res)
         self.session.commit()
 
-    def get_latest_tweet_id(self) -> str:
-        """Get latest weet id in the table"""
-        job_id_list = self.session.query(JobId).all()
+    def get_latest_query(self) -> str:
+        """Get latest tweet id in the table"""
+        query = self._get_latest_query_in_job_id()
+
+        return query
+
+    def _get_latest_query_in_job_id(self) -> str:
+
+        latest_row = self.session.query(JobId).order_by(JobId.job_id.desc()).first()
+
+        return latest_row
 
 
     def _validate_model(self, inp: dict) -> None:

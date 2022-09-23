@@ -9,7 +9,7 @@ To avoid exhaustive and painful environment setting, a database with MySQL is cr
 ### Build a Docker image and start a container
 
 ```
-$ docker-compose -d up --build
+$ docker-compose up -d --build
 ```
 
 ### Start a container with an existing Docker image
