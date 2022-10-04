@@ -12,9 +12,6 @@ services:
       TZ: 'Asia/Tokyo'           # timezone seetting in a conainer
     ### setting to make the host paramanent. host_side: container_side
     volumes:
-      #- ./db/data:/var/lib/mysql               # MySQL data
-      #- ./db/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
-      #- ./db/sql:/docker-entrypoint-initdb.d   # db initialization script
       - ./sigma_chan_db/db/data:/var/lib/mysql               # MySQL data
       - ./sigma_chan_db/db/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
       - ./sigma_chan_db/db/sql:/docker-entrypoint-initdb.d   # db initialization script
@@ -22,5 +19,33 @@ services:
     ### port no. is 3306 as usual
     ports:
       - "3306:3306"
-    #  command on starting a container
-    #command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    tty: true
+    stdin_open: true
+    networks:
+      - app-net
+  operator:
+    build:
+      context: ./operators
+      dockerfile: Makefile
+    ports:
+      - "5550:8888"
+    container_name: getter-db-operator
+    volumes:
+      - "./operators:/operators"
+    tty: true
+    stdin_open: true
+    networks:
+      - app-net
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - app-net
+    environment:
+      - DISPLAY=${DISPLAY}
+networks:
+  app-net:
+    driver: bridge
+    
+
