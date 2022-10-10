@@ -26,7 +26,7 @@ services:
   operator:
     build:
       context: ./operators
-      dockerfile: Makefile
+      dockerfile: Dockerfile
     ports:
       - "5550:8888"
     container_name: getter-db-operator

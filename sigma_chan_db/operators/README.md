@@ -12,6 +12,20 @@ $ poetry install
 
 Installing MySql in your local environment by any measures.
 
+## IP adress for WSL and container usage
+
+Using database operator or database in a Docker conteiner with WSL environment, following procedure to determine the IP address of the data base is needed.
+
+Open a command prompt in Windows environment and run,
+
+```
+> ipconfig
+```
+
+and you could find a IPv4 address.
+
+You should replace IP address written in `alembic.ini` and `operators/setting.py` to that IP address got from the command prompt.
+
 ## Migration
 
 Create a database table.

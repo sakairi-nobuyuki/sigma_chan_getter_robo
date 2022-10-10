@@ -1,18 +1,3 @@
-###################################
-### First stage build for mysql ###
-###################################
-FROM mysql
-
-### port setting
-EXPOSE 3306
-
-### Copying setting files
-COPY ./my.cnf /etc/mysql/conf.d/my.cnf
-
-####################################
-### Second stage build for mysql ###
-####################################
-
 FROM ubuntu:20.04
 
 ### add a non-root user
@@ -41,6 +26,7 @@ RUN sudo apt install --no-install-recommends -y python3.8 python3-pip python3.8-
 ENV PATH $PATH:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$PATH
 
 COPY . $HOME
+RUN sudo chown -R $USERNAME .  
 
 ### install packages
 RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python -  && \
