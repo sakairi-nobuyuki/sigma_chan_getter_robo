@@ -1,0 +1,12 @@
+MAKEFILE_DIR:=$(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+IMAGE_NAME=tw-getter
+DEV_IMAGE_NAME=tw-getter-dev
+IMAGE_TAG=00.00
+CONTAINER_NAME=$(IMAGE_NAME)
+DEV_CONTAINER_NAME=$(DEV_IMAGE_NAME)
+K8S_NAMESPACE=time-series
+CONTAINER_START_FLAG=-it --rm
+CONTAINER_ATTACH_FLAG=/bin/bash
+
+image:
+	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
