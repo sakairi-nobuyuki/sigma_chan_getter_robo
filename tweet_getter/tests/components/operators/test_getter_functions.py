@@ -2,8 +2,8 @@
 
 
 from tweet_getter.components.operators import *
-from tweet_getter.io import initialize_tweet_getter_instance
 from tweet_getter.data_structure import GetterRoboCredentials
+from tweet_getter.io import initialize_tweet_getter_instance
 
 
 class TestGetterFunctions:
@@ -21,7 +21,6 @@ class TestGetterFunctions:
         friends = get_friends(api)
 
         assert isinstance(friends, tweepy.cursor.ItemIterator)
-        
 
         friends_id_list = get_friends_id_list(api)
 
