@@ -1,12 +1,9 @@
 # coding: utf-8
 
-from database import DatabaseOperator
-
-from database import Base, Engine
+import pytest
+from database import Base, DatabaseOperator, Engine
 from database.models import JobId
 
-
-import pytest
 
 @pytest.mark.db_operation
 class TestDatabaseOperator:

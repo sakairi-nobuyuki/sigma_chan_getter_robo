@@ -1,8 +1,7 @@
 # coding: utf-8
 
-from database import DatabaseOperator
-
 import typer
+from database import DatabaseOperator
 
 app = typer.Typer()
 

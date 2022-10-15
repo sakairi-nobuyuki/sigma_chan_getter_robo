@@ -1,15 +1,17 @@
 # coding: utf-8
 
-from typing import Union, Dict
+import datetime
 import os
-from sqlalchemy.orm import sessionmaker
+from typing import Dict, Union
+
 import sqlalchemy
 import sqlalchemy.ext.declarative
 
-import datetime
 #from models import InferenceResultsModel
 from database.models import JobId
-from database.settings import Engine, Base
+from database.settings import Base, Engine
+from sqlalchemy.orm import sessionmaker
+
 #from getter_robo_db.database.models import JobId
 #from getter_robo_db.database.settings import Engine, Base
 #from settings import Engine, Base

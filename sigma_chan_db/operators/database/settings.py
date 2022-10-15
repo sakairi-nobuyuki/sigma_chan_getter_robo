@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-
 USER_NAME = "docker"
 PASSWD = "docker"
 HOST="192.168.0.16:3306"

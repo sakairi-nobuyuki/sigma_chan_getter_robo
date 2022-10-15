@@ -1,10 +1,12 @@
 # coding: utf-8
 
-#from settings import Engine, Base
-#from getter_robo_db.settings import Engine, Base
-from database.settings import Engine, Base
-from sqlalchemy import Column, Integer, String, DateTime
+# from settings import Engine, Base
+# from getter_robo_db.settings import Engine, Base
 from datetime import datetime
+
+from database.settings import Base, Engine
+from sqlalchemy import Column, DateTime, Integer, String
+
 
 class JobId(Base):
     __tablename__ = "job_id"
