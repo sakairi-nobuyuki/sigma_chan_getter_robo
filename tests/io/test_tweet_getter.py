@@ -1,8 +1,10 @@
 # cofing: utf-8
 
+import tweepy
+
 from tweet_getter.data_structure import GetterRoboCredentials
 from tweet_getter.io import initialize_tweet_getter_instance
-import tweepy
+
 
 class TestInitializeTweetGetterInstance:
     def test_init_getter_robo(self):
@@ -18,7 +20,5 @@ class TestInitializeTweetGetterInstance:
         tweets = api.home_timeline()
 
         print(type(tweets))
-        
-        assert len(tweets) > 0
 
-    
+        assert len(tweets) > 0

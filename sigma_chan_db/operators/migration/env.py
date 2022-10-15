@@ -1,14 +1,13 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
-from database.settings import Engine, Base
+from database.models import JobId
+from database.settings import Base, Engine
+from sqlalchemy import engine_from_config, pool
+
 #from getter_robo_db.database.settings import Engine, Base
 #from getter_robo_db.settings import Engine, Base
 
-from database.models import JobId
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

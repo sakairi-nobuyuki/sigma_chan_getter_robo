@@ -8,6 +8,7 @@ authors = ["sakairi-nobuyuki <SAKAIRI.Nobuyuki@gmail.com>"]
 python = "^3.8"
 black = "^22.10.0"
 isort = "^5.10.1"
+pytest = "^7.1.3"
 
 
 [tool.poetry.dev-dependencies]
@@ -33,6 +34,7 @@ exclude = '''
     | build
     | dist
     | migrations
+    | db
  )
  '''
 
