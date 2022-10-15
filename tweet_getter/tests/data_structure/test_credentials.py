@@ -10,4 +10,3 @@ class TestGetterRoboCredentials:
         print(credentials.access_token)
 
         assert isinstance(credentials, GetterRoboCredentials)
-        

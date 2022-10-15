@@ -8,5 +8,10 @@ K8S_NAMESPACE=time-series
 CONTAINER_START_FLAG=-it --rm
 CONTAINER_ATTACH_FLAG=/bin/bash
 
+
+
 image:
 	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
+run:
+	docker run -v $(MAKEFILE_DIR)/volume:/home/sigma_chan/volume -e TZ=Asia/Tolyo --name $(IMAGE_NAME) -it $(IMAGE_NAME):$(IMAGE_TAG) /bin/bash
+
