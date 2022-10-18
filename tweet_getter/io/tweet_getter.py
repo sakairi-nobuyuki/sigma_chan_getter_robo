@@ -9,4 +9,4 @@ def initialize_tweet_getter_instance(credentials: GetterRoboCredentials) -> twee
     auth = tweepy.OAuthHandler(credentials.consumer_api_key, credentials.consumer_api_secret_key)
     auth.set_access_token(credentials.access_token, credentials.access_token_secret)
 
-    return tweepy.API(auth, wait_on_rate_limit=True)
+    return tweepy.API(auth, wait_on_rate_limit=True, timeout=600)

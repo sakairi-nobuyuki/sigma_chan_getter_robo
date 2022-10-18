@@ -8,7 +8,7 @@ K8S_NAMESPACE=time-series
 CONTAINER_START_FLAG=-it --rm
 CONTAINER_ATTACH_FLAG=/bin/bash
 
-
+	
 
 image:
 	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
