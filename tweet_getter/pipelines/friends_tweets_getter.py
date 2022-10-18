@@ -1,10 +1,11 @@
 # coding: utf-8
 
-from cmath import inf
 import pprint
 import time
-from typing import Any, Dict, List
+from cmath import inf
 from copy import deepcopy
+from typing import Any, Dict, List
+
 import tweepy
 
 from tweet_getter.components.operators import get_friends, get_tweets_by_dancer_id
@@ -17,7 +18,9 @@ class FriendsTweetsPipeline:
         self.api = initialize_tweet_getter_instance(GetterRoboCredentials())
         self.friends = get_friends(self.api)
 
-    def get_all_friends_texts_tweets(self, since_id: str = None, n_max_items: int = inf) -> Dict[str, List[str]]:
+    def get_all_friends_texts_urls_tweets(
+        self, since_id: str = None, n_max_items: int = inf
+    ) -> Dict[str, List[str]]:
         """Get tweets of my friends.
 
         Args:
@@ -26,37 +29,46 @@ class FriendsTweetsPipeline:
         Returns:
             Dict[str, List[str]]: Tweets of my friends in a list.
             {
-                friend_id_1: 
+                friend_id_1:
                     {
                         "text": [text of tweet_1, text of tweet_2, ...],
-                        "image_url": 
+                        "image_url":
                             [
                                 1st image url of tweet_1, 2nd image url of tweet_1, ...,
                                 1st image url of tweet_2, 2nd image url of tweet_2, ...,
                                 ...
                             ]
                     },
-                friend_id_2: 
+                friend_id_2:
                     ...,
                 max_tweet_id: str: "The latest tweet ID in the getter tweet."
                 min_tweet_id: str: "The oldest tweet ID in the getter tweet."
             }
         """
-        print(">> Get friends tweets, it's texts and image urls")        
+        print(">> Get friends tweets, it's texts and image urls")
         res_dict = {}
         tweet_id_list = []
         for i_friend, friend in enumerate(self.friends):
             ### get texts
-            res_iterator = get_tweets_by_dancer_id(self.api, friend.id, since_id=since_id, n_max_items=n_max_items)
+            res_iterator = get_tweets_by_dancer_id(
+                self.api, friend.id, since_id=since_id, n_max_items=n_max_items
+            )
             text_dict = self.__get_text_dict(res_iterator)
             time.sleep(0.1)
 
             ### get image urls
-            res_iterator = get_tweets_by_dancer_id(self.api, friend.id, since_id=since_id, n_max_items=n_max_items)
+            res_iterator = get_tweets_by_dancer_id(
+                self.api, friend.id, since_id=since_id, n_max_items=n_max_items
+            )
             image_url_dict = self.__get_image_url_dict(res_iterator)
 
-            ### summarize results            
-            res_dict = self.__summarize_result_dict(res_dict, self.__flatten_texts_and_image_urls(text_dict, image_url_dict), friend.name, friend.id)
+            ### summarize results
+            res_dict = self.__summarize_result_dict(
+                res_dict,
+                self.__flatten_texts_and_image_urls(text_dict, image_url_dict),
+                friend.name,
+                friend.id,
+            )
 
             ### tweet id
             tweet_id_list.extend(map(int, text_dict.keys()))
@@ -67,26 +79,33 @@ class FriendsTweetsPipeline:
             if i_friend > 5:
                 break
 
-        print("res_dict", )
         res_dict["max_tweet_id"] = max(tweet_id_list)
         res_dict["min_tweet_id"] = min(tweet_id_list)
+        print(
+            ">>  res_dict is: ",
+        )
         pprint.pprint(res_dict)
-        
+
         return res_dict
 
-    
-    def __summarize_result_dict(self, res_dict: Dict[str, Any], friends_tweet_dict: Dict[str, Any], friend_name: str, friend_id: str) -> Dict[str, Any]:
-        
+    def __summarize_result_dict(
+        self,
+        res_dict: Dict[str, Any],
+        friends_tweet_dict: Dict[str, Any],
+        friend_name: str,
+        friend_id: str,
+    ) -> Dict[str, Any]:
+
         res_dict[friend_id] = {}
         res_dict[friend_id]["text"] = friends_tweet_dict["text"]
         res_dict[friend_id]["image_url"] = friends_tweet_dict["image_url"]
         res_dict[friend_id]["friend_name"] = friend_name
-        
+
         return res_dict
-        
 
-
-    def __flatten_texts_and_image_urls(self, text_dict: Dict[str, str], image_url_dict: Dict[str, List[str]]) -> Dict[str, Any]:
+    def __flatten_texts_and_image_urls(
+        self, text_dict: Dict[str, str], image_url_dict: Dict[str, List[str]]
+    ) -> Dict[str, Any]:
         """Flatten the lists of texts and image urls get by the tweet API regardless to the tweet id.
 
         Args:
@@ -98,16 +117,16 @@ class FriendsTweetsPipeline:
                 }
             image_url_dict (Dict[str, List[str]]): Image url list dict of a friend.
                 {
-                    tweet_id_1: [1st image url of tweet_id_1, 2nd  image url of tweet_id_1 if exists, ...], 
+                    tweet_id_1: [1st image url of tweet_id_1, 2nd  image url of tweet_id_1 if exists, ...],
                     tweet_id_2: [1st image url of tweet_id_2, 2nd  image url of tweet_id_2 if exists, ...],
                     ...
                 }
 
         Returns:
-            Dict[str, Any]: 
+            Dict[str, Any]:
                 {
                     "text": [text of tweet_1, text of tweet_2, ...],
-                    "image_url": 
+                    "image_url":
                         [
                             1st image url of tweet_1, 2nd image url of tweet_1, ...,
                             1st image url of tweet_2, 2nd image url of tweet_2, ...,
@@ -123,7 +142,7 @@ class FriendsTweetsPipeline:
         image_urls_list = []
         for tweet_id in image_url_dict.keys():
             image_urls_list.append(image_url_dict[tweet_id])
-        #image_urls_list = [image_url for image_url in image_urls for image_urls in image_urls_list]
+        # image_urls_list = [image_url for image_url in image_urls for image_urls in image_urls_list]
         image_urls_list = [image_url for image_urls in image_urls_list for image_url in image_urls]
 
         return dict(text=text_list, image_url=image_urls_list)
@@ -146,8 +165,8 @@ class FriendsTweetsPipeline:
 
         res_dict = {}
         for res in res_iterator:
-            #print(">> res keys: ", res._json.keys())
-            #pprint.pprint(res._json)
+            # print(">> res keys: ", res._json.keys())
+            # pprint.pprint(res._json)
             if "text" in res._json.keys():
                 res_dict[res._json["id_str"]] = res._json["text"]
             if "full_text" in res._json.keys():
@@ -166,52 +185,30 @@ class FriendsTweetsPipeline:
             Dict[str, str]: _description_
 
             {
-                tweet_id_1: [1st image url of tweet_id_1, 2nd  image url of tweet_id_1 if exists, ...], 
+                tweet_id_1: [1st image url of tweet_id_1, 2nd  image url of tweet_id_1 if exists, ...],
                 tweet_id_2: [1st image url of tweet_id_2, 2nd  image url of tweet_id_2 if exists, ...],
                 ...
             }
         """
 
         res_dict = {}
-        
+
         for res in res_iterator:
             # print("res json in url image getter: ", res._json)
             if "media" in res.entities:
- #               print("res with media in: ", res._json["id_str"])
+                #               print("res with media in: ", res._json["id_str"])
                 # pprint.pprint(res._json)
                 url_list = []
-                
+
                 try:
                     for medium in res.extended_entities["media"]:
-                    # print("medius: ", medium)
+                        # print("medius: ", medium)
                         if medium["type"] == "photo":
                             # print(">>  url: ", medium["media_url"])
                             url_list.append(medium["media_url"])
 
                 except:
-                    print("something wrong") 
-#                print("url list: ", url_list)
+                    print("something wrong")
+                #                print("url list: ", url_list)
                 res_dict[res._json["id_str"]] = url_list
         return res_dict
-
-
-    def get_all_friends_image_url(self) -> Dict[str, List[str]]:
-
-        image_url_dict = {}
-
-        for friend in self.friends:
-            image_url_dict[friend.id] = []
-            for tweet in get_tweets_by_dancer_id(self.api, friend.id):
-
-  #              print(friend.name)
-
-                if "media" in tweet.extended_entities:
-                    media = tweet.extended_entities["media"]
-                    for medium in media:
-                        if medium["type"] == "photo":
-#                            pprint.pprint(tweet.extended_entities["media"])
-                            image_url_dict[friend.id].append(medium["media_url_https"])
-
-                time.sleep(0.1)
-
-        return image_url_dict
