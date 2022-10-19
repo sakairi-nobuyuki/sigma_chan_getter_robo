@@ -23,15 +23,15 @@ services:
     stdin_open: true
     networks:
       - app-net
-  operator:
+  app:
     build:
-      context: ./operators
+      context: ./
       dockerfile: Dockerfile
     ports:
       - "5550:8888"
-    container_name: getter-db-operator
+    container_name: getter-robo
     volumes:
-      - "./operators:/operators"
+      - "./sigma_chan_getter_robo:/app"
     tty: true
     stdin_open: true
     networks:
