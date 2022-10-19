@@ -2,9 +2,7 @@
 
 import typer
 
-from tweet_getter.data_structure import GetterRoboCredentials
-from tweet_getter.io import initialize_tweet_getter_instance
-from tweet_getter.pipelines.friends_tweets_getter import FriendsTweetsPipeline
+from sigma_chan_getter_robo.tweet_getter.pipelines.friends_tweets_getter import FriendsTweetsPipeline
 
 app = typer.Typer()
 

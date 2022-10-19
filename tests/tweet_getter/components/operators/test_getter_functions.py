@@ -1,9 +1,9 @@
 # coding: utf-8
 
 
-from tweet_getter.components.operators import *
-from tweet_getter.data_structure import GetterRoboCredentials
-from tweet_getter.io import initialize_tweet_getter_instance
+from sigma_chan_getter_robo.tweet_getter.components.operators import *
+from sigma_chan_getter_robo.tweet_getter.data_structure import GetterRoboCredentials
+from sigma_chan_getter_robo.tweet_getter.io import initialize_tweet_getter_instance
 
 
 class TestGetterFunctions:

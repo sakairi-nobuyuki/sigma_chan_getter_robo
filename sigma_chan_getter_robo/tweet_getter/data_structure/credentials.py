@@ -1,8 +1,9 @@
 # coding: utf-8
 import dataclasses
+from glob import glob
 import json
 import os
-
+from pathlib import Path
 
 @dataclasses.dataclass
 class GetterRoboCredentials:
@@ -13,10 +14,12 @@ class GetterRoboCredentials:
     access_token_secret: str
 
     def __init__(self):
-        key_path = "../.key/credentials.json"
+        root_dir = Path(os.path.abspath(__file__)).parent.parent.parent.parent
+        
+        key_path = os.path.join(root_dir, ".key/credentials.json")
 
         if not os.path.exists(key_path):
-            raise FileExistsError(f"Credential file is not found.")
+            raise FileNotFoundError(f"Credential file is not found.")
 
         with open(key_path) as f_in:
             credentials_dict = json.load(f_in)

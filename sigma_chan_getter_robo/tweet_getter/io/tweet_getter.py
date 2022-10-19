@@ -2,7 +2,7 @@
 
 import tweepy
 
-from tweet_getter.data_structure import GetterRoboCredentials
+from sigma_chan_getter_robo.tweet_getter.data_structure import GetterRoboCredentials
 
 
 def initialize_tweet_getter_instance(credentials: GetterRoboCredentials) -> tweepy.API:

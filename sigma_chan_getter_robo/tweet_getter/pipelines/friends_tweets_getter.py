@@ -8,9 +8,9 @@ from typing import Any, Dict, List
 
 import tweepy
 
-from tweet_getter.components.operators import get_friends, get_tweets_by_dancer_id
-from tweet_getter.data_structure import GetterRoboCredentials
-from tweet_getter.io import initialize_tweet_getter_instance
+from sigma_chan_getter_robo.tweet_getter.components.operators import get_friends, get_tweets_by_dancer_id
+from sigma_chan_getter_robo.tweet_getter.data_structure import GetterRoboCredentials
+from sigma_chan_getter_robo.tweet_getter.io import initialize_tweet_getter_instance
 
 
 class FriendsTweetsPipeline:
