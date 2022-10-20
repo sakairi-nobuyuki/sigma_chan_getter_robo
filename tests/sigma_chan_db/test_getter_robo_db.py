@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import pytest
-from database import Base, DatabaseOperator, Engine
-from database.models import JobId
+from sigma_chan_getter_robo.sigma_chan_db.database import Base, DatabaseOperator, Engine
+from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
 
 
 @pytest.mark.db_operation

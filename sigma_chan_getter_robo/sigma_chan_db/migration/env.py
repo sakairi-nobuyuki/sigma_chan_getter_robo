@@ -1,8 +1,8 @@
 from logging.config import fileConfig
 
 from alembic import context
-from database.models import JobId
-from database.settings import Base, Engine
+from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
+from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
 from sqlalchemy import engine_from_config, pool
 
 #from getter_robo_db.database.settings import Engine, Base

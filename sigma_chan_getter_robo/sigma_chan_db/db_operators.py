@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import typer
-from database import DatabaseOperator
+from sigma_chan_getter_robo.sigma_chan_db.database import DatabaseOperator
 
 app = typer.Typer()
 

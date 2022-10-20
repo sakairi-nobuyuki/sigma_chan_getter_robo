@@ -12,9 +12,12 @@ services:
       TZ: 'Asia/Tokyo'           # timezone seetting in a conainer
     ### setting to make the host paramanent. host_side: container_side
     volumes:
-      - ./sigma_chan_db/db/data:/var/lib/mysql               # MySQL data
-      - ./sigma_chan_db/db/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
-      - ./sigma_chan_db/db/sql:/docker-entrypoint-initdb.d   # db initialization script
+      - ./database/data:/var/lib/mysql               # MySQL data
+      - ./database/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
+      - ./database/sql:/docker-entrypoint-initdb.d   # db initialization script
+      #- ./sigma_chan_db/db/data:/var/lib/mysql               # MySQL data
+      #- ./sigma_chan_db/db/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
+      #- ./sigma_chan_db/db/sql:/docker-entrypoint-initdb.d   # db initialization script
     ### port-forwarding setting
     ### port no. is 3306 as usual
     ports:
