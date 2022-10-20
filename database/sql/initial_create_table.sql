@@ -1,0 +1,10 @@
+DROP DATABASE IF EXISTS test_db;
+
+CREATE DATABASE test_db;
+
+DROP DATABASE IF EXISTS getter_db;
+
+CREATE DATABASE getter_db;
+
+USE getter_db;
+

@@ -4,6 +4,8 @@ __pycache__/
 cresentials.json
 db_oparators/migration
 
+database/data
+
 sigma_chan_db/db/data
 sigma_chan_db/db/sql/
 sigma_chan_db/db/my.conf

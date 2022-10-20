@@ -1,1 +1,0 @@
-from tweet_getter.pipelines.friends_tweets_getter import FriendsTweetsPipeline
