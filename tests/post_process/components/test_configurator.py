@@ -1,7 +1,11 @@
 # coding: utf-8
 
-from sigma_chan_getter_robo.post_process.components.configurator import LocalStorageCofigurator
 import pytest
+
+from sigma_chan_getter_robo.post_process.components.configurator import (
+    DatabaseConfigurator,
+    LocalStorageCofigurator,
+)
 
 
 class TestStorageCofigurator:
@@ -40,3 +44,20 @@ class TestStorageCofigurator:
         storage = LocalStorageCofigurator("hoge", "words")
 
         assert storage().split("/")[-1] == "words.json"
+
+
+class TestDatabaseConfigurator:
+    @pytest.mark.parametrize("target_type", ["latest", "oldest"])
+    def test_init(self, target_type):
+        configurator = DatabaseConfigurator("hoge", target_type)
+
+        assert isinstance(configurator, DatabaseConfigurator)
+
+    @pytest.mark.parametrize("target_type", ["latest", "oldest"])
+    def test_configure(self, target_type, mock_tweet_getter_dict):
+        configurator = DatabaseConfigurator("hoge", target_type)
+        
+        if target_type == "latest":
+            assert configurator(**mock_tweet_getter_dict) == mock_tweet_getter_dict["max_tweet_id"]
+        if target_type == "oldest":
+            assert configurator(**mock_tweet_getter_dict) == mock_tweet_getter_dict["min_tweet_id"]

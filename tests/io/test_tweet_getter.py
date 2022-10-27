@@ -1,7 +1,6 @@
 # cofing: utf-8
 
 import tweepy
-
 from tweet_getter.data_structure import GetterRoboCredentials
 from tweet_getter.io import initialize_tweet_getter_instance
 

@@ -1,7 +1,9 @@
 # coding: utf-8
 
 import pytest
+
 from sigma_chan_getter_robo.post_process.components import DataOrganizer
+
 
 class TestDataOrganizer:
     @pytest.mark.parametrize("target_type", ["images", "words"])
@@ -13,7 +15,7 @@ class TestDataOrganizer:
 
     @pytest.mark.parametrize("target_type", ["images", "words"])
     def test_image_organize(self, target_type, mock_tweet_getter_dict):
-    
+
         organizer = DataOrganizer("hoge", target_type)
 
         res = organizer(**mock_tweet_getter_dict)

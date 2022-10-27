@@ -64,5 +64,24 @@ class LocalStorageCofigurator(PostprocessConfigurator):
         
     
 class DatabaseConfigurator(PostprocessConfigurator):
-    pass
+    def __init__(self, job_id: str, target_type: str) -> None:
+        print("Post process database configurator:")
+        super().__init__(job_id, target_type)
+        if self.target_type == "latest":
+            print(">> Latest tweet id.")
+            self.configure = self.__select_latest_tweet_id
+        elif self.target_type == "oldest":
+            print(">> Oldest tweet id.")
+            self.configure = self.__select_oldest_tweet_id
 
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        
+        return self.configure(**kwds)
+
+    def __select_latest_tweet_id(self, *args: Any, **kwds: dict) -> str:
+        
+        return kwds["max_tweet_id"]
+
+    def __select_oldest_tweet_id(self, *args: Any, **kwds: dict) -> str:
+        
+        return kwds["min_tweet_id"]
