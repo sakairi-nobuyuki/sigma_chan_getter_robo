@@ -108,7 +108,7 @@ class FriendsTweetsPipeline:
     ) -> Dict[str, Any]:
         """Flatten the lists of texts and image urls get by the tweet API regardless to the tweet id.
 
-        Args:
+        Args:x
             text_dict (Dict[str, str]): Tweet text list of a friend
                 {
                     tweet_id_1: tweet of tweet_id_1,

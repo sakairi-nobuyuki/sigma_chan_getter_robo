@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import pytest
+
 from sigma_chan_getter_robo.sigma_chan_db.database import Base, DatabaseOperator, Engine
 from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
 

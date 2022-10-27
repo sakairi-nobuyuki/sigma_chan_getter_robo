@@ -15,9 +15,6 @@ services:
       - ./database/data:/var/lib/mysql               # MySQL data
       - ./database/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
       - ./database/sql:/docker-entrypoint-initdb.d   # db initialization script
-      #- ./sigma_chan_db/db/data:/var/lib/mysql               # MySQL data
-      #- ./sigma_chan_db/db/my.conf:/etc/mysql/conf.d/my.cnf  # MySQL setting file
-      #- ./sigma_chan_db/db/sql:/docker-entrypoint-initdb.d   # db initialization script
     ### port-forwarding setting
     ### port no. is 3306 as usual
     ports:
@@ -34,7 +31,7 @@ services:
       - "5550:8888"
     container_name: getter-robo
     volumes:
-      - "./sigma_chan_getter_robo:/app"
+      - "./sigma_chan_getter_robo:./sigma_chan_getter_robo"
     tty: true
     stdin_open: true
     networks:
