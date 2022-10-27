@@ -3,7 +3,7 @@
 import pytest
 
 
-@pytest.mark.fixture
+@pytest.fixture
 def mock_tweet_getter_dict() -> dict:
     return {
         "friend_1": {

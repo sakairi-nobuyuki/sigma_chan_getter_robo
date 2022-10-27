@@ -9,7 +9,7 @@ class DataOrganizer:
         if self.target_type not in ["images", "words"]:
             raise NotImplementedError(f"In data organizer, {self.target_type} is not implemented.")
 
-    def __call__(self, **kwds: Any) -> List[srt]:
+    def __call__(self, **kwds: Any) -> List[str]:
         if self.target_type == "images":
             res = self.__extract_images_urls(kwds)
         elif self.target_type == "words":
@@ -26,5 +26,5 @@ class DataOrganizer:
         return url_list
     
     def __extract_words(self, input_dict: Dict[str, Dict[str, List[str]]]) -> List[str]:
-        return {input_key: input_value["words"] for input_key, input_value in input_dict.items()}
+        return {input_key: input_value["text"] for input_key, input_value in input_dict.items()}
 
