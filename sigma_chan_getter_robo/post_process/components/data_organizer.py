@@ -20,11 +20,17 @@ class DataOrganizer:
 
     def __extract_images_urls(self, input_dict: Dict[str, Dict[str, List[str]]]) -> List[str]:
         url_list = []
-        for input in input_dict.values():
-            url_list.extend(input["image_url"])
+        for input_value in input_dict.values():
+            if isinstance(input_value, dict):
+                url_list.extend(input_value["image_url"])
 
         return url_list
     
-    def __extract_words(self, input_dict: Dict[str, Dict[str, List[str]]]) -> List[str]:
-        return {input_key: input_value["text"] for input_key, input_value in input_dict.items()}
+    def __extract_words(self, input_dict: Dict[str, Dict[str, List[str]]]) -> Dict[str, Any]:
+        output_dict = {}
+        for input_key, input_value in input_dict.items():
+            if isinstance(input_value, dict):
+                output_dict[input_key] = input_value["text"]
+        return output_dict
+        #return {input_key: input_value["text"] for input_key, input_value in input_dict.items()}
 

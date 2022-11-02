@@ -51,7 +51,7 @@ class FriendsTweetsPipeline:
         for i_friend, friend in enumerate(self.friends):
             ### get texts
             res_iterator = get_tweets_by_dancer_id(
-                self.api, friend.id, since_id=since_id, n_max_items=n_max_items
+                self.api, friend.id, since_id=int(since_id), n_max_items=int(n_max_items)
             )
             text_dict = self.__get_text_dict(res_iterator)
             time.sleep(0.1)
@@ -95,6 +95,8 @@ class FriendsTweetsPipeline:
         friend_name: str,
         friend_id: str,
     ) -> Dict[str, Any]:
+        if isinstance(friend_id, int):
+            friend_id = str(friend_id)
 
         res_dict[friend_id] = {}
         res_dict[friend_id]["text"] = friends_tweet_dict["text"]

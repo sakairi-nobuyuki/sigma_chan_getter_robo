@@ -15,18 +15,13 @@ def tweet_getter_pipeline(max_data_length: int = 1000) -> None:
     ### configure data download
     since_id = configure_since_id()
     job_id = issue_new_job_id()
-    print(f">> job_id: {job_id}\n>> last tweet id: {since_id}")
+    print(f">> job_id: {job_id}\n>> last tweet id (since_id): {since_id}")
 
     ### get tweet
     print(f">> initializing tweet getter pipeline")
     friends_tweets = FriendsTweetsPipeline()
     print(f">> getting tweets")
-    if since_id is None:
-        res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=None, n_max_items=max_data_length)
-    else:
-        res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=since_id, n_max_items=max_data_length)
-    
-    
+    res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=since_id, n_max_items=max_data_length)
 
     ### store data
     print(">> post-processing")
