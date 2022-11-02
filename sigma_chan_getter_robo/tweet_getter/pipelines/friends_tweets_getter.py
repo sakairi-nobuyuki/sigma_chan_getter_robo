@@ -95,6 +95,8 @@ class FriendsTweetsPipeline:
         friend_name: str,
         friend_id: str,
     ) -> Dict[str, Any]:
+        if isinstance(friend_id, int):
+            friend_id = str(friend_id)
 
         res_dict[friend_id] = {}
         res_dict[friend_id]["text"] = friends_tweet_dict["text"]

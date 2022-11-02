@@ -56,7 +56,7 @@ class TestDatabaseConfigurator:
     @pytest.mark.parametrize("target_type", ["latest", "oldest"])
     def test_configure(self, target_type, mock_tweet_getter_dict):
         configurator = DatabaseConfigurator("hoge", target_type)
-        
+
         if target_type == "latest":
             assert configurator(**mock_tweet_getter_dict) == mock_tweet_getter_dict["max_tweet_id"]
         if target_type == "oldest":

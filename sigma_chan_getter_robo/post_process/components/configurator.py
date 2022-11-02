@@ -47,7 +47,8 @@ class LocalStorageCofigurator(PostprocessConfigurator):
     def __configure_image_file_path(self, *args: Any) -> Union[str, bool]:
         if len(args) > 1:
             print(f"Warining: The length of image file is {len(args)}. It should be 1.")
-
+            return False
+        print(">>   in post-process, image url: ", args)
         url = args[0]
         file_name = os.path.basename(url)
         file_extention = file_name.split(".")[-1]
@@ -58,7 +59,7 @@ class LocalStorageCofigurator(PostprocessConfigurator):
         return os.path.join(self.data_dir_path, file_name)
 
     def __get_data_storage_path(self):
-        return os.path.join(str(Path(os.path.abspath(__file__)).parent.parent.parent.parent), self.job_id)
+        return os.path.join(str(Path(os.path.abspath(__file__)).parent.parent.parent.parent), "data", self.job_id)
 
     
         
@@ -83,5 +84,6 @@ class DatabaseConfigurator(PostprocessConfigurator):
         return kwds["max_tweet_id"]
 
     def __select_oldest_tweet_id(self, *args: Any, **kwds: dict) -> str:
-        
+        if isinstance(kwds, dict):
+            print("keys of res dict: ", kwds.keys())
         return kwds["min_tweet_id"]

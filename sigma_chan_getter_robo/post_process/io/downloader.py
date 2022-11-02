@@ -26,11 +26,15 @@ class Downloader:
         if response.status_code != 200:
             print("Failed to get an image.")
             return False
-        if "image" in response.headers["content-type"]:
-            print("The file seems not to be an image", response.headers["content-type"])
+        if not "image" in response.headers["content-type"]:
+            print("The file seems not to be an image: ", response.headers["content-type"])
             return False
 
-        with open(file_path, "w") as f_out:
+        dir_path = os.path.dirname(file_path)
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+        with open(file_path, "wb") as f_out:
             f_out.write(response.content)
 
         if os.path.exists(file_path):

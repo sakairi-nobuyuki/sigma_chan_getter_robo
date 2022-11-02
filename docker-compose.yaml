@@ -31,7 +31,7 @@ services:
       - "5550:8888"
     container_name: getter-robo
     volumes:
-      - "./sigma_chan_getter_robo:./sigma_chan_getter_robo"
+      - "./sigma_chan_getter_robo/data:/home/sigma_chan/sigma_chan_getter_robo/data"
     tty: true
     stdin_open: true
     networks:

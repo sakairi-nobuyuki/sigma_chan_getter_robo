@@ -7,15 +7,9 @@ from typing import Dict, Union
 import sqlalchemy
 import sqlalchemy.ext.declarative
 
-#from models import InferenceResultsModel
 from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
 from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
 from sqlalchemy.orm import sessionmaker
-
-#from getter_robo_db.database.models import JobId
-#from getter_robo_db.database.settings import Engine, Base
-#from settings import Engine, Base
-
 
 
 class DatabaseOperator:
@@ -29,14 +23,20 @@ class DatabaseOperator:
         Base.metadata.create_all(bind=Engine)
         print("  Initialized DB.")
 
-    def create_job_id_data(self, tweet_id: str) -> JobId:
+    def create_job_id_data(self, tweet_id: str, job_id: str = None) -> JobId:
         date_time_now = datetime.datetime.now()
-
-        return JobId(
-            job_id = date_time_now.strftime('%Y%m%d%H%M%S'), 
-            tweet_id = tweet_id, 
-            created_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'), 
-            modified_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'))
+        if job_id is not None:
+            return JobId(
+                job_id = date_time_now.strftime('%Y%m%d%H%M%S'), 
+                tweet_id = tweet_id, 
+                created_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'), 
+                modified_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'))
+        else:
+            return JobId(
+                job_id = date_time_now.strftime('%Y%m%d%H%M%S'), 
+                tweet_id = tweet_id, 
+                created_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'), 
+                modified_at = date_time_now.strftime('%Y-%m-%d %H:%M:%S'))
 
     def __del__(self):
         self.session.close()
