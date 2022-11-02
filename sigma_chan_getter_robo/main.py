@@ -15,7 +15,7 @@ def tweet_getter_pipeline(max_data_length: int = 1000) -> None:
     ### configure data download
     since_id = configure_since_id()
     job_id = issue_new_job_id()
-    print(f">> job_id: {job_id}\n>> last tweet id: {since_id}")
+    print(f">> job_id: {job_id}\n>> last tweet id (since_id): {since_id}")
 
     ### get tweet
     print(f">> initializing tweet getter pipeline")

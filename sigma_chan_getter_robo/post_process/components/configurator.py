@@ -48,7 +48,7 @@ class LocalStorageCofigurator(PostprocessConfigurator):
         if len(args) > 1:
             print(f"Warining: The length of image file is {len(args)}. It should be 1.")
             return False
-        print(">>   in post-process, image url: ", args)
+        #print(">>   in post-process, image url: ", args)
         url = args[0]
         file_name = os.path.basename(url)
         file_extention = file_name.split(".")[-1]
@@ -84,6 +84,8 @@ class DatabaseConfigurator(PostprocessConfigurator):
         return kwds["max_tweet_id"]
 
     def __select_oldest_tweet_id(self, *args: Any, **kwds: dict) -> str:
-        if isinstance(kwds, dict):
-            print("keys of res dict: ", kwds.keys())
+        print("res :", kwds)
+        print("res type: ", type(kwds))
+        #if isinstance(kwds, dict):
+        #    print("keys of res dict: ", kwds.keys())
         return kwds["min_tweet_id"]

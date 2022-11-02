@@ -21,19 +21,19 @@ def save_words(job_id: str, res_dict: dict) -> bool:
     words_organizer = DataOrganizer(job_id, "words")
     words_cofingurator = LocalStorageCofigurator(job_id, "words")
     json_path = words_cofingurator()
-    print("res_dict: ", res_dict)
+    #print("res_dict: ", res_dict)
     res_json = words_organizer(**res_dict)
     dir_path = os.path.dirname(json_path)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
     with open(json_path, "w", encoding="utf-8") as f_out:
-        json.dump(res_json, f_out, ensure_ascii=True, indent=4)
+        json.dump(res_json, f_out, ensure_ascii=False, indent=4)
 
     return True
 
 def commit_database(job_id: str, res_dict: dict, oldest_latest: str) -> bool:
     db_configurator = DatabaseConfigurator(job_id, oldest_latest)
-    tweet_id = db_configurator(res_dict)
+    tweet_id = db_configurator(**res_dict)
 
     insert_tweet_id(tweet_id)
 

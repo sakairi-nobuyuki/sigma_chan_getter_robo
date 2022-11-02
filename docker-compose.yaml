@@ -32,6 +32,7 @@ services:
     container_name: getter-robo
     volumes:
       - "./sigma_chan_getter_robo/data:/home/sigma_chan/sigma_chan_getter_robo/data"
+      - "./data:/home/sigma_chan/data"
     tty: true
     stdin_open: true
     networks:
