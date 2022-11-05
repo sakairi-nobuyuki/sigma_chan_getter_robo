@@ -9,7 +9,8 @@ RUN groupadd -g $GID $GROUPNAME && \
     useradd -m -s /bin/bash -u $UID -g $GID -G sudo $USERNAME && \
     echo $USERNAME:$PASSWD | chpasswd && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-USER $USERNAME
+USER $UID
+#USER $USERNAME
 WORKDIR $HOME
 
 ### Configure the environment

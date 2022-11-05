@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: getter-robo
+spec:
+  schedule: "* */6 * * *"k
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: getter-robo
+            image: nsakairi/getter-robo:latest
+            command: [python, main.py]
+            ports:
+              - containerPort: 5550
+#          volumes: ["./sigma_chan_getter_robo/data:/home/sigma_chan/sigma_chan_getter_robo/data", "./data:/home/sigma_chan/data"]
+#          tty: true
+#          stdin_open: true
+#          networks:
+#            - app-net
+#          depends_on:
+#            - db
+#          links:
+#            - db
+#          networks:
+#            - app-net
+#          environment:
+#            - DISPLAY=${DISPLAY}
+          restartPolicy: OnFailure

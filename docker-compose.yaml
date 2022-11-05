@@ -27,6 +27,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    image: nsakairi/getter-robo
     ports:
       - "5550:8888"
     container_name: getter-robo
