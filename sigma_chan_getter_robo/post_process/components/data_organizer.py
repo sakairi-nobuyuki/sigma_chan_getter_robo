@@ -1,6 +1,7 @@
 # coding: utf-8
 
-from typing import Any, List, Dict, Union
+from typing import Any, Dict, List, Union
+
 
 class DataOrganizer:
     def __init__(self, job_id: str, target_type: str) -> None:
@@ -17,7 +18,6 @@ class DataOrganizer:
 
         return res
 
-
     def __extract_images_urls(self, input_dict: Dict[str, Dict[str, List[str]]]) -> List[str]:
         url_list = []
         for input_value in input_dict.values():
@@ -25,12 +25,11 @@ class DataOrganizer:
                 url_list.extend(input_value["image_url"])
 
         return url_list
-    
+
     def __extract_words(self, input_dict: Dict[str, Dict[str, List[str]]]) -> Dict[str, Any]:
         output_dict = {}
         for input_key, input_value in input_dict.items():
             if isinstance(input_value, dict):
                 output_dict[input_key] = input_value["text"]
         return output_dict
-        #return {input_key: input_value["text"] for input_key, input_value in input_dict.items()}
-
+        # return {input_key: input_value["text"] for input_key, input_value in input_dict.items()}

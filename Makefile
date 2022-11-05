@@ -1,4 +1,5 @@
-SRCS = db_oparators sigma_chan_db tweet_getter tests post_processor
+SRCS = sigma_chan_getter_robo
+#SRCS = db_oparators sigma_chan_db tweet_getter tests post_process
 POETRY_PREFIX = poetry run
 CONTAINER_NAME = getter-robo
 

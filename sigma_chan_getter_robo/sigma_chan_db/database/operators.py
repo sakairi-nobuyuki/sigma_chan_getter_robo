@@ -6,10 +6,10 @@ from typing import Dict, Union
 
 import sqlalchemy
 import sqlalchemy.ext.declarative
+from sqlalchemy.orm import sessionmaker
 
 from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
 from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
-from sqlalchemy.orm import sessionmaker
 
 
 class DatabaseOperator:
