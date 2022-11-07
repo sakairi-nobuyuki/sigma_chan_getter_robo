@@ -18,9 +18,5 @@ class AbstractStorage(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def save_image(self, image: bytes) -> bool:
-        pass
-
-    @abstractmethod
-    def save_json(self, src: dict) -> bool:
+    def save_data(self, data: bytes, file_name: str) -> bool:
         pass

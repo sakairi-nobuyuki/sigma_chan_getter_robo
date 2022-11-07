@@ -25,10 +25,15 @@ class S3Storage(AbstractStorage):
             aws_secret_access_key=access_key,
             region_name=region_name,
         )
+        self.bucket_name = bucket_name
         self.bucket = self.s3_resource.Bucket(bucket_name)
 
-    def save_image(self, image: bytes) -> bool:
-        return super().save_image(image)
+    def save_data(self, data: bytes, file_name: str) -> bool:
+        s3_object = self.s3_resource.Object(self.bucket_name, file_name)
+        if s3_object.put(Body=data):
+            return True
+        else:
+            return False
 
     def save_json(self, src: dict) -> bool:
         return super().save_json(src)
