@@ -9,20 +9,21 @@ spec:
     spec:
       containers:
       - name: getter-robo
-        image: nsakairi/getter-robo:latest
+        image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
+        #sha256:b5aef7ca4154f2b10d4ea9682f2249fa62a4787aa256b9f8515382e935e633f5
         command: [python, main.py]
         ports:
           - containerPort: 5550
-        volumeMounts:
-        - name: persistent-data-volume
-          mountPath: /home/sigma_chan/data
-      #restartPolicy: Never
-      volumes:
-      - name: persistent-data-volume
-        persistentVolumeClaim:
-          claimName: data-pvc
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        #volumeMounts:
+        #- name: persistent-data-volume
+        #  mountPath: /home/sigma_chan/data
+      restartPolicy: Never
+#      volumes:
+#      - name: persistent-data-volume
+#        persistentVolumeClaim:
+#          claimName: data-pvc
+#      securityContext:
+#        runAsUser: 1000
+#        runAsGroup: 1000
         #fsGroup: 1000
         
