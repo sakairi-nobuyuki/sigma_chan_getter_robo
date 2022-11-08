@@ -13,5 +13,6 @@ sigma_chan_db/sigma_chan_db/db/data
 sigma_chan_db/sigma_chan_db/db/sql/
 sigma_chan_db/sigma_chan_db/db/my.conf
 data/
+!data/getter_robo/hoge.dat
 minio/policies/
 minio/config/

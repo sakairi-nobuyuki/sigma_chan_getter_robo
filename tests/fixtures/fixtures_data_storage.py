@@ -7,7 +7,7 @@ from sigma_chan_getter_robo.post_process.io import S3Storage
 
 @pytest.fixture
 def mock_s3_minio():
-    s3 = S3Storage("s3", "", "getter_robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", "")
+    s3 = S3Storage("s3", "", "getter-robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", "")
 
     return s3
 
