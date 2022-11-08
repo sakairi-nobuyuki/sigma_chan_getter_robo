@@ -3,8 +3,10 @@
 #from settings import Engine, Base
 #from getter_robo_db.settings import Engine, Base
 from datetime import datetime
-from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
+
 from sqlalchemy import Column, DateTime, Integer, String
+
+from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
 
 
 class JobId(Base):

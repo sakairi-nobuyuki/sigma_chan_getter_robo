@@ -1,9 +1,10 @@
 # coding: utf-8
 import dataclasses
-from glob import glob
 import json
 import os
+from glob import glob
 from pathlib import Path
+
 
 @dataclasses.dataclass
 class GetterRoboCredentials:
@@ -15,7 +16,7 @@ class GetterRoboCredentials:
 
     def __init__(self):
         root_dir = Path(os.path.abspath(__file__)).parent.parent.parent.parent
-        
+
         key_path = os.path.join(root_dir, ".key/credentials.json")
 
         if not os.path.exists(key_path):
