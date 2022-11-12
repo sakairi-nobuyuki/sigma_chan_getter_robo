@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: getter-robo
+spec:
+  schedule: "00 06 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: getter-robo
+            image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
+            #image: nsakairi/getter-robo:latest
+            command: [python, main.py]
+            ports:
+              - containerPort: 5550
+          restartPolicy: OnFailure

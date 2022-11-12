@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: getter-robo
+spec:
+  schedule: "* 11 * * *"
+  #timezone: "Japan/Tokyo"   # Default to local machine timezone
+  startingDeadlineSeconds: 0
+  concurrencyPolicy: "Replace"      # Default to "Allow"
+  successfulJobsHistoryLimit: 4     # Default 3
+  failedJobsHistoryLimit: 4         # Default 1
+  suspend: false                    # Set to "true" to suspend scheduling
+  workflowSpec:
+    entrypoint: getter-robo
+    templates:
+      - name: getter-robo
+        container:
+          image: nsakairi/getter-robo:latest
+          command: [python, main.py]

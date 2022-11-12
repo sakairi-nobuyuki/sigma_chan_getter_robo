@@ -1,9 +1,10 @@
 from logging.config import fileConfig
 
 from alembic import context
+from sqlalchemy import engine_from_config, pool
+
 from sigma_chan_getter_robo.sigma_chan_db.database.models import JobId
 from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
-from sqlalchemy import engine_from_config, pool
 
 #from getter_robo_db.database.settings import Engine, Base
 #from getter_robo_db.settings import Engine, Base
