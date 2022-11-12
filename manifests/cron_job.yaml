@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: getter-robo
 spec:
-  schedule: "* */6 * * *"
+  schedule: "00 06 * * *"
   jobTemplate:
     spec:
       template:
