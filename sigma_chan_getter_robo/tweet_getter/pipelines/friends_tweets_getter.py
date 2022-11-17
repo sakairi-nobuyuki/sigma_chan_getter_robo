@@ -57,7 +57,7 @@ class FriendsTweetsPipeline:
                 self.api, friend.id, since_id=int(since_id), n_max_items=int(n_max_items)
             )
             text_dict = self.__get_text_dict(res_iterator)
-            time.sleep(0.1)
+            time.sleep(10.0)
 
             ### get image urls
             res_iterator = get_tweets_by_dancer_id(

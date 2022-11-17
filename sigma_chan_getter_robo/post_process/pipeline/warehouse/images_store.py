@@ -6,6 +6,7 @@ from sigma_chan_getter_robo.post_process.components import LocalStorageCofigurat
 from sigma_chan_getter_robo.post_process.io import Downloader
 from sigma_chan_getter_robo.post_process.pipeline.warehouse import Warehouse
 from sigma_chan_getter_robo.post_process.io import S3Storage
+import time
 
 class ImageStore(Warehouse):
     """Downloading images"""
@@ -24,6 +25,7 @@ class ImageStore(Warehouse):
             if file_path is False:
                 continue
             self.downloader.dauso_single_file(url, file_path)
+            time.sleep(30.0)
 
     def store_to_bucket(self, src: List[str], bucket: S3Storage) -> bool:
         for url in src:
@@ -33,3 +35,4 @@ class ImageStore(Warehouse):
             obj = self.downloader.dauso_single_object(url)
 
             bucket.save_data(obj, file_path)
+            time.sleep(30.0)

@@ -38,7 +38,8 @@ def tweet_getter_pipeline(max_data_length: int = 1000) -> None:
     bucket = initialize_bucket()
     save_words(job_id, res, bucket)
     save_images_to_bucket(job_id, res, bucket)
-    commit_database(job_id, res, "oldest")
+    commit_database(job_id, res, "latest")
+    #commit_database(job_id, res, "oldest")
     print(">> Completed")
     return True
 
