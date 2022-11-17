@@ -27,7 +27,7 @@ def get_tweets_by_dancer_id(
         user_id=user_id,
         exclude_replies=True,
         tweet_mode="extended",
-        include_entities=True,
+        #include_entities=True,
         since_id=since_id,
     ).items(n_max_items)
     return res_iterator
