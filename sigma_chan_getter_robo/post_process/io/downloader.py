@@ -1,6 +1,8 @@
 # coding: utf-8
 
 import os
+import time
+from typing import List
 
 import requests
 
@@ -20,7 +22,8 @@ class Downloader:
         Returns:
             bytes: Downloaded object
         """
-        response = requests.get(url)
+        response = self.__get_with_retry(url, 10, [500, 502, 503])
+        #response = requests.get(url)
 
         if response.status_code != 200:
             print("Failed to get an image.")
@@ -42,7 +45,8 @@ class Downloader:
             bool: True if succeeded, else False
         """
 
-        response = requests.get(url)
+        #response = requests.get(url)
+        response = self.__get_with_retry(url, 10, [500, 502, 503])
 
         if response.status_code != 200:
             print("Failed to get an image.")
@@ -70,3 +74,13 @@ class Downloader:
         file_path = os.path.join(self.dir_path, file_name)
 
         return file_path
+
+
+    def __get_with_retry(self, url: str, max_retry: int, errors: List[str]):
+        for i_try in range(max_retry):
+            response = requests.get(url)
+            if i_try < max_retry:
+                if response.status_code in errors:
+                    time.sleep(60.0)
+                    continue
+            return response
