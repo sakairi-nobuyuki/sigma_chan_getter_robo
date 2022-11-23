@@ -16,11 +16,11 @@ class DatabaseOperator:
     def __init__(self):
         print("DB operation")
         print("  Creating a sesssion")
-        
-        self.session = sessionmaker(bind=Engine)()
+        self.engine = Engine
+        self.session = sessionmaker(bind=self.engine)()
         
         print("  DB session start.")
-        Base.metadata.create_all(bind=Engine)
+        Base.metadata.create_all(bind=self.engine)
         print("  Initialized DB.")
 
     def create_job_id_data(self, tweet_id: str, job_id: str = None) -> JobId:
@@ -41,6 +41,8 @@ class DatabaseOperator:
     def __del__(self):
         self.session.close()
         print("  DB session closed.")
+        self.engine.dispose()
+        print("  DB engine disposed.")
 
     def insert(self, res: Base):
         """Insert data to the DB. Data shall be given in the form of DB model."""
@@ -68,7 +70,7 @@ class DatabaseOperator:
 
     def _get_columns(self) -> list:
         """Get columns of the table."""
-        inspector = sqlalchemy.inspect(Engine)
+        inspector = sqlalchemy.inspect(self.engine)
         columns = inspector.get_columns("job_id")
 
         column_name_list = [column["name"] for column in columns]

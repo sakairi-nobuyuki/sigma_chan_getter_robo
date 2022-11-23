@@ -11,7 +11,7 @@ app = typer.Typer()
 
 
 @app.command("tweet_getter")
-def tweet_getter_pipeline(max_data_length: int = 1000) -> None:
+def tweet_getter_pipeline(max_data_length: int = 10000) -> None:
     print("Tweet getter robo")
 
     ### configure data download

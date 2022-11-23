@@ -10,7 +10,8 @@ spec:
         spec:
           containers:
           - name: getter-robo
-            image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
+            image: nsakairi/getter-robo@sha256:fee25e79a6ae725c0ac45630843b08eb17d256b45975a77f08884b2d6465a7a6
+            #image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
             #image: nsakairi/getter-robo:latest
             command: [python, main.py]
             ports:
