@@ -26,7 +26,7 @@ RUN sudo apt install --no-install-recommends -y python3.8 python3-pip python3.8-
 
 ENV PATH $PATH:$HOME/.poetry/bin:$HOME/.local/bin:$HOME/bin:$PATH
 
-COPY ./pyproject.toml ./poetry.lock $HOME
+COPY ./pyproject.toml ./poetry.lock $HOME/
 RUN sudo chown -R $USERNAME .  
 
 ### install packages
@@ -37,6 +37,6 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION
 
 
 COPY ./sigma_chan_getter_robo/ $HOME/sigma_chan_getter_robo/
-COPY .key/ $HOME/.key
-COPY main.py $HOME
+COPY .key/ $HOME/.key/
+COPY main.py $HOME/
 RUN sudo chown -R $USERNAME .  

@@ -18,11 +18,17 @@ from sigma_chan_getter_robo.tweet_getter.io import initialize_tweet_getter_insta
 
 class FriendsTweetsPipeline:
     def __init__(self) -> None:
-        self.api = initialize_tweet_getter_instance(GetterRoboCredentials())
+        print(">> initializing friends tweets pipeline")
+        self.credentials = GetterRoboCredentials()
+        self.initialize_api(self.credentials)
+        
+    def initialize_api(self, credentials: GetterRoboCredentials) -> None:
+        print(">> initializing api")
+        self.api = initialize_tweet_getter_instance(credentials)
         print(">> api: ", self.api)
         self.friends = get_friends(self.api, n_max_items=1000)
         print(">> friends: ", self.friends)
-        
+
     def get_all_friends_texts_urls_tweets(
         self, since_id: str = None, n_max_items: int = inf
     ) -> Dict[str, List[str]]:
@@ -55,6 +61,7 @@ class FriendsTweetsPipeline:
         tweet_id_list = []
         
         i_friend = 0
+
         for friend in self.friends:
         #for i_friend, friend in enumerate(self.friends):            
             print(f">> {i_friend} th friends tweet")
@@ -64,7 +71,7 @@ class FriendsTweetsPipeline:
                 self.api, friend.id, since_id=int(since_id), n_max_items=int(n_max_items)
             )
             text_dict = self.__get_text_dict(res_iterator)
-            time.sleep(10.0)
+            time.sleep(1.0)
 
             ### get image urls
             res_iterator = get_tweets_by_dancer_id(

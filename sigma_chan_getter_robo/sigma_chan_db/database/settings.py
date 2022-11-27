@@ -6,7 +6,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 USER_NAME = "docker"
 PASSWD = "docker"
-HOST="192.168.0.16:3306"
+HOST="192.168.11.10:3306"
+#HOST="192.168.0.16:3306"
 DB_NAME = "getter_db"
 
 DATABASE = f'mysql://{USER_NAME}:{PASSWD}@{HOST}/{DB_NAME}?charset=utf8'

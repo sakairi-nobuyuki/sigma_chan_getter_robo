@@ -70,6 +70,6 @@ def initialize_bucket(type: str = "",
         S3Storage: initialized instance
     """
     #s3 = S3Storage("s3", "", "getter-robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", "")
-    s3 = S3Storage("s3", "", "getter-robo", "http://192.168.0.16:9000/", "sigma-chan", "sigma-chan-dayo", "")
+    s3 = S3Storage("s3", "", "getter-robo", "http://192.168.11.10:9000/", "sigma-chan", "sigma-chan-dayo", "")
 
     return s3

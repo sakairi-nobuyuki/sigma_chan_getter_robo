@@ -19,25 +19,28 @@ def tweet_getter_pipeline(max_data_length: int = 10000) -> None:
     job_id = issue_new_job_id()
     print(f">> job_id: {job_id}\n>> last tweet id: {since_id}")
 
-    ### get tweet
-    print(f">> initializing tweet getter pipeline")
-    friends_tweets = FriendsTweetsPipeline()
-    print(f">> getting tweets")
-    if since_id is None:
-        print(">>   since_id is not found.")
-        res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=None, n_max_items=max_data_length)
-    else:
-        print(f">>    since_id: {since_id}")
-        res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=since_id, n_max_items=max_data_length)
-    
-    
+    try: 
+        ### get tweet
+        print(f">> initializing tweet getter pipeline")
+        friends_tweets = FriendsTweetsPipeline()
+        print(f">> getting tweets")
+        if since_id is None:
+            print(">>   since_id is not found.")
+            res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=None, n_max_items=max_data_length)
+        else:
+            print(f">>    since_id: {since_id}")
+            res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=since_id, n_max_items=max_data_length)
+        
+        
 
-    ### store data
-    print(">> post-processing")
-    print(">>   initializing bucket: ")
-    bucket = initialize_bucket()
-    save_words(job_id, res, bucket)
-    save_images_to_bucket(job_id, res, bucket)
+        ### store data
+        print(">> post-processing")
+        print(">>   initializing bucket: ")
+        bucket = initialize_bucket()
+        save_words(job_id, res, bucket)
+        save_images_to_bucket(job_id, res, bucket)
+    except Exception as e:
+        print(">> something was wrong: ", e)
     commit_database(job_id, res, "latest")
     #commit_database(job_id, res, "oldest")
     print(">> Completed")

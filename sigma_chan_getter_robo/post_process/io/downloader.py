@@ -59,6 +59,9 @@ class Downloader:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
+        if not (isinstance(response.content, bytes) or isinstance(response.content, bytearray)): 
+            return False
+
         with open(file_path, "wb") as f_out:
             f_out.write(response.content)
 
