@@ -1,12 +1,12 @@
 # coding: utf-8
 
+import time
 from typing import Any, List
 
 from sigma_chan_getter_robo.post_process.components import LocalStorageCofigurator
-from sigma_chan_getter_robo.post_process.io import Downloader
+from sigma_chan_getter_robo.post_process.io import Downloader, S3Storage
 from sigma_chan_getter_robo.post_process.pipeline.warehouse import Warehouse
-from sigma_chan_getter_robo.post_process.io import S3Storage
-import time
+
 
 class ImageStore(Warehouse):
     """Downloading images"""
@@ -36,5 +36,3 @@ class ImageStore(Warehouse):
 
             bucket.save_data(obj, file_path)
             time.sleep(10.0)
-
-    

@@ -21,7 +21,7 @@ class FriendsTweetsPipeline:
         print(">> initializing friends tweets pipeline")
         self.credentials = GetterRoboCredentials()
         self.initialize_api(self.credentials)
-        
+
     def initialize_api(self, credentials: GetterRoboCredentials) -> None:
         print(">> initializing api")
         self.api = initialize_tweet_getter_instance(credentials)
@@ -59,11 +59,11 @@ class FriendsTweetsPipeline:
         print(">> Get friends tweets, it's texts and image urls")
         res_dict = {}
         tweet_id_list = []
-        
+
         i_friend = 0
 
         for friend in self.friends:
-        #for i_friend, friend in enumerate(self.friends):            
+            # for i_friend, friend in enumerate(self.friends):
             print(f">> {i_friend} th friends tweet")
             i_friend += 1
             ### get texts
@@ -99,7 +99,6 @@ class FriendsTweetsPipeline:
             ">>  res_dict is: ",
         )
         pprint.pprint(res_dict)
-
 
         return res_dict
 

@@ -6,6 +6,7 @@ from typing import List
 
 import requests
 
+
 class Downloader:
     """Download data from internets"""
 
@@ -23,7 +24,7 @@ class Downloader:
             bytes: Downloaded object
         """
         response = self.__get_with_retry(url, 10, [500, 502, 503])
-        #response = requests.get(url)
+        # response = requests.get(url)
 
         if response.status_code != 200:
             print("Failed to get an image.")
@@ -32,8 +33,7 @@ class Downloader:
             print("The file seems not to be an image: ", response.headers["content-type"])
             return False
         return response.content
-        
-    
+
     def dauso_single_file(self, url: str, file_path: str) -> bool:
         """Download a single file.
 
@@ -45,7 +45,7 @@ class Downloader:
             bool: True if succeeded, else False
         """
 
-        #response = requests.get(url)
+        # response = requests.get(url)
         response = self.__get_with_retry(url, 10, [500, 502, 503])
 
         if response.status_code != 200:
@@ -59,7 +59,7 @@ class Downloader:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
-        if not (isinstance(response.content, bytes) or isinstance(response.content, bytearray)): 
+        if not (isinstance(response.content, bytes) or isinstance(response.content, bytearray)):
             return False
 
         with open(file_path, "wb") as f_out:
@@ -77,7 +77,6 @@ class Downloader:
         file_path = os.path.join(self.dir_path, file_name)
 
         return file_path
-
 
     def __get_with_retry(self, url: str, max_retry: int, errors: List[str]):
         for i_try in range(max_retry):
