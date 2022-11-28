@@ -30,8 +30,6 @@ def tweet_getter_pipeline(max_data_length: int = 10000) -> None:
         else:
             print(f">>    since_id: {since_id}")
             res = friends_tweets.get_all_friends_texts_urls_tweets(since_id=since_id, n_max_items=max_data_length)
-        
-        
 
         ### store data
         print(">> post-processing")

@@ -12,6 +12,12 @@ from sigma_chan_getter_robo.data_structure.parameters import (
 class Parameters(BaseModel):
     """Parameters for getter robo.
 
+    Attributes:
+        endpoint_url: Endpoint URL of the local storage and database. It shold be in a form of IPv4.
+        database: DataBaseParameters
+        storage: StorageParameters
+        tweet: TweetParameters
+
     Args:
         BaseModel (_type_): _description_
     """
