@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 
 class DataBaseParameters(BaseModel):
-    """Model of parameters of database 
+    """Model of parameters of database
 
     Attributes:
         port: str: Port number of the connection.
@@ -20,6 +20,7 @@ class DataBaseParameters(BaseModel):
     Args:
         BaseModel (_type_): _description_
     """
+
     port: str = "3306"
     type: str = "mysql"
     user_name: str = "docker"

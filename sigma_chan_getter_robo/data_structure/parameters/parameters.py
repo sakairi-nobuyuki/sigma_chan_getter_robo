@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from typing import Optional
+
 from pydantic import BaseModel
 
 from sigma_chan_getter_robo.data_structure.parameters import (
@@ -23,6 +25,6 @@ class Parameters(BaseModel):
     """
 
     endpoint_url: str
-    database: DataBaseParameters
+    database: Optional[DataBaseParameters]
     storage: StorageParameters
-    tweet: TweetParameters
+    tweet: Optional[TweetParameters]

@@ -23,14 +23,6 @@ def get_tweets_by_dancer_id(
     tw_api: tweepy.API, user_id: str, n_max_items: int = Union[int, None], since_id: str = None
 ) -> tweepy.cursor.ItemIterator:
 
-    # res_iterator = tweepy.Cursor(
-    #    tw_api.user_timeline,
-    #    user_id=user_id,
-    #    exclude_replies=True,
-    #    tweet_mode="extended",
-    #    #include_entities=True,
-    #    since_id=since_id,
-    # ).items(n_max_items)
     if n_max_items is None:
         res_iterator = tweepy.Cursor(
             tw_api.user_timeline,

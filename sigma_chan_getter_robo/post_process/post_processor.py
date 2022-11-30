@@ -3,6 +3,7 @@
 import json
 import os
 
+from sigma_chan_getter_robo.data_structure.parameters import Parameters
 from sigma_chan_getter_robo.post_process.components import (
     DatabaseConfigurator,
     DataOrganizer,
@@ -60,22 +61,29 @@ def commit_database(job_id: str, res_dict: dict, oldest_latest: str) -> bool:
 
 
 def initialize_bucket(
-    type: str = "",
-    project_name: str = "",
-    bucket_name: str = "",
-    endpoint_url: str = "",
-    access_id: str = "",
-    access_key: str = "",
-    region_name: str = "",
+    parameters: Parameters,
 ) -> S3Storage:
     """Initialize S3 bucket. In this time, using minio.
 
     Returns:
         S3Storage: initialized instance
     """
+    if not isinstance(parameters, Parameters):
+        raise TypeError(
+            f"parameter in initialize bucket is not the type of Parameters: {type(parameters)}"
+        )
     # s3 = S3Storage("s3", "", "getter-robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", "")
     s3 = S3Storage(
-        "s3", "", "getter-robo", "http://192.168.11.10:9000/", "sigma-chan", "sigma-chan-dayo", ""
+        parameters.storage.type,
+        "",
+        parameters.storage.bucket,
+        parameters.endpoint_url, 
+        parameters.storage.access_id,
+        parameters.storage.access_key,
+        "",
     )
+    #    s3 = S3Storage(
+    #        "s3", "", "getter-robo", "http://192.168.11.10:9000/", "sigma-chan", "sigma-chan-dayo", ""
+    #    )
 
     return s3
