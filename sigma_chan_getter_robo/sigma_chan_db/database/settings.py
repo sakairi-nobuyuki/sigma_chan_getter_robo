@@ -3,14 +3,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+import os
 
-USER_NAME = "docker"
-PASSWD = "docker"
-HOST="192.168.11.10:3306"
-#HOST="192.168.0.16:3306"
-DB_NAME = "getter_db"
+DB_TYPE = os.getenv("GETTER_DB_TYPE")
+DB_USER_NAME = os.getenv("GETTER_DB_USER_NAME")
+DB_PASSWD = os.getenv("GETTER_DB_PASSWD")
+DB_HOST = os.getenv("GETTER_DB_HOST")
+DB_NAME = os.getenv("GETTER_DB_NAME")
 
-DATABASE = f'mysql://{USER_NAME}:{PASSWD}@{HOST}/{DB_NAME}?charset=utf8'
+DATABASE = f'{DB_TYPE}://{DB_USER_NAME}:{DB_PASSWD}@{DB_HOST}/{DB_NAME}?charset=utf8'
 
 Engine = create_engine(DATABASE, encoding="utf-8", echo=True)
 

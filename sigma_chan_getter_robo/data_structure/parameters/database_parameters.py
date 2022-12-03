@@ -28,3 +28,4 @@ class DataBaseParameters(BaseModel):
     database_name: str = "getter_robo"
     encoding: str = "utf-8"
     tweet_id_registration: str = "oldest"
+

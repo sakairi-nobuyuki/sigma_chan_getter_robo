@@ -7,6 +7,7 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Integer, String
 
 from sigma_chan_getter_robo.sigma_chan_db.database.settings import Base, Engine
+from sigma_chan_getter_robo.sigma_chan_db.database import DatabaseEngine
 
 
 class JobId(Base):
