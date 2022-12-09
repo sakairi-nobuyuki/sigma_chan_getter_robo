@@ -1,8 +1,8 @@
 # coding: utf-8
 
 from typing import Optional
-
-from pydantic import BaseModel
+import os
+from pydantic import BaseModel, validator
 
 from sigma_chan_getter_robo.data_structure.parameters import (
     DataBaseParameters,
@@ -24,7 +24,15 @@ class Parameters(BaseModel):
         BaseModel (_type_): _description_
     """
 
-    endpoint_url: str
+    endpoint_url: str = None
     database: Optional[DataBaseParameters]
     storage: StorageParameters
     tweet: Optional[TweetParameters]
+
+    @validator("endpoint_url")
+    def __validate_endpoint_url(cls, v):
+        endpoint_url = os.getenv("ENDPOINT_URL")
+        if endpoint_url is None:
+            raise ValueError("Environmental variable 'ENDPONT_URL' is not defined")
+
+        return endpoint_url

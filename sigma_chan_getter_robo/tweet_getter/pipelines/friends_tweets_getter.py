@@ -21,8 +21,9 @@ class FriendsTweetsPipeline:
     def __init__(self, parameters: TweetParameters) -> None:
         print(">> initializing friends tweets pipeline")
         self.credentials = GetterRoboCredentials()
-        self.initialize_api(self.credentials)
         self.parameters = parameters
+        self.initialize_api(self.credentials)
+        
 
     def initialize_api(self, credentials: GetterRoboCredentials) -> None:
         print(">> initializing api")
@@ -72,7 +73,7 @@ class FriendsTweetsPipeline:
             res_iterator = get_tweets_by_dancer_id(
                 self.api,
                 friend.id,
-                since_id=int(since_id),
+                since_id=since_id,
                 n_max_items=int(self.parameters.max_items),
             )
             text_dict = self.__get_text_dict(res_iterator)

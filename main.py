@@ -38,7 +38,8 @@ def tweet_getter_pipeline(parameters_str: str) -> None:
         if since_id is None:
             print(">>   since_id is not found.")
             res = friends_tweets.get_all_friends_texts_urls_tweets(
-                since_id=None, n_max_items=parameters.tweet.max_items
+                #since_id=None, n_max_items=parameters.tweet.max_items
+                n_max_items=parameters.tweet.max_items
             )
         else:
             print(f">>    since_id: {since_id}")

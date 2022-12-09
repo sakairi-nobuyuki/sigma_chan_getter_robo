@@ -23,26 +23,59 @@ def get_tweets_by_dancer_id(
     tw_api: tweepy.API, user_id: str, n_max_items: int = Union[int, None], since_id: str = None
 ) -> tweepy.cursor.ItemIterator:
 
+
     if n_max_items is None:
-        res_iterator = tweepy.Cursor(
-            tw_api.user_timeline,
-            user_id=user_id,
-            exclude_replies=True,
-            tweet_mode="extended",
-            # include_entities=True,
-            since_id=since_id,
-        )
+        if since_id is None:
+            res_iterator = tweepy.Cursor(
+                tw_api.user_timeline,
+                user_id=user_id,
+                exclude_replies=True,
+                tweet_mode="extended",
+            )
+        else:
+            res_iterator = tweepy.Cursor(
+                tw_api.user_timeline,
+                user_id=user_id,
+                exclude_replies=True,
+                tweet_mode="extended",
+                since_id=since_id,
+            )
+
     else:
-        res_iterator = tweepy.Cursor(
-            tw_api.user_timeline,
-            user_id=user_id,
-            exclude_replies=True,
-            tweet_mode="extended",
-            # include_entities=True,
-            since_id=since_id,
-        ).items(n_max_items)
+        if since_id is None:
+            res_iterator = tweepy.Cursor(
+                tw_api.user_timeline,
+                user_id=user_id,
+                exclude_replies=True,
+                tweet_mode="extended",
+            ).items(n_max_items)
+        else:
+            res_iterator = tweepy.Cursor(
+                tw_api.user_timeline,
+                user_id=user_id,
+                exclude_replies=True,
+                tweet_mode="extended",
+                since_id=since_id,
+            ).items(n_max_items)
 
     return res_iterator
+
+def __get_tweets_by_dancer_id_without_since_id(tw_api: tweepy.API, user_id: str, since_id: int):
+    return tweepy.Cursor(
+        tw_api.user_timeline,
+        user_id=user_id,
+        exclude_replies=True,
+        tweet_mode="extended",
+    )
+
+def __get_tweets_by_dancer_id_with_since_id(tw_api: tweepy.API, user_id: str, since_id: int):
+    return tweepy.Cursor(
+        tw_api.user_timeline,
+        user_id=user_id,
+        exclude_replies=True,
+        tweet_mode="extended",
+        since_id=since_id,
+    )
 
 
 def get_friends(tw_api: tweepy.API, n_max_items: int = Union[int, None]):
