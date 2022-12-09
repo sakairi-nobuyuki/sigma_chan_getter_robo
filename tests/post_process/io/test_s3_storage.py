@@ -1,22 +1,27 @@
 # coding: utf-8
 
-from sigma_chan_getter_robo.post_process.io import S3Storage
-import pytest
 import json
+
+import pytest
+
+from sigma_chan_getter_robo.post_process.io import S3Storage
+
 
 class TestS3Storage:
     """S3 storage test"""
+
     def test_init(self):
         """S3 test initialization test"""
-        s3 = S3Storage("s3", "", "getter-robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", "")
+        s3 = S3Storage(
+            "s3", "", "getter-robo", "http://localhost:9000/", "sigma-chan", "sigma-chan-dayo", ""
+        )
         assert isinstance(s3, S3Storage)
 
     def test_fixture(self, mock_s3_minio):
         """S3 test initialization test testing fixture"""
         assert isinstance(mock_s3_minio, S3Storage)
 
-
-    @pytest.mark.parametrize("texts", ["hoge", "{\"dict\": {\"piyo\": \"fuga\"}}"])
+    @pytest.mark.parametrize("texts", ["hoge", '{"dict": {"piyo": "fuga"}}'])
     def test_text_save(self, mock_s3_minio, texts):
         """Test saving some texts.
 
@@ -39,6 +44,3 @@ class TestS3Storage:
         key_list = [obj.key for obj in mock_s3_minio.bucket.objects.all()]
 
         assert obj_key not in key_list
-
-
-    

@@ -13,6 +13,7 @@ def insert_tweet_id(tweet_id: str) -> None:
     tweet_ids = db.create_job_id_data(tweet_id)
     
     db.insert(tweet_ids)
+    del db 
 
 @app.command("get-latest-query")
 def get_latest_tweet_id() -> str:

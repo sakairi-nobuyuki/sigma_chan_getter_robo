@@ -8,6 +8,7 @@ from typing import Any, Dict, List
 
 import tweepy
 
+from sigma_chan_getter_robo.data_structure.parameters import TweetParameters
 from sigma_chan_getter_robo.tweet_getter.components.operators import (
     get_friends,
     get_tweets_by_dancer_id,
@@ -17,9 +18,19 @@ from sigma_chan_getter_robo.tweet_getter.io import initialize_tweet_getter_insta
 
 
 class FriendsTweetsPipeline:
-    def __init__(self) -> None:
-        self.api = initialize_tweet_getter_instance(GetterRoboCredentials())
-        self.friends = get_friends(self.api)
+    def __init__(self, parameters: TweetParameters) -> None:
+        print(">> initializing friends tweets pipeline")
+        self.credentials = GetterRoboCredentials()
+        self.parameters = parameters
+        self.initialize_api(self.credentials)
+        
+
+    def initialize_api(self, credentials: GetterRoboCredentials) -> None:
+        print(">> initializing api")
+        self.api = initialize_tweet_getter_instance(credentials)
+        print(">> api: ", self.api)
+        self.friends = get_friends(self.api, n_max_items=self.parameters.max_items)
+        print(">> friends: ", self.friends)
 
     def get_all_friends_texts_urls_tweets(
         self, since_id: str = None, n_max_items: int = inf
@@ -51,17 +62,26 @@ class FriendsTweetsPipeline:
         print(">> Get friends tweets, it's texts and image urls")
         res_dict = {}
         tweet_id_list = []
-        for i_friend, friend in enumerate(self.friends):
+
+        i_friend = 0
+
+        for friend in self.friends:
+            # for i_friend, friend in enumerate(self.friends):
+            print(f">> {i_friend} th friends tweet")
+            i_friend += 1
             ### get texts
             res_iterator = get_tweets_by_dancer_id(
-                self.api, friend.id, since_id=int(since_id), n_max_items=int(n_max_items)
+                self.api,
+                friend.id,
+                since_id=since_id,
+                n_max_items=int(self.parameters.max_items),
             )
             text_dict = self.__get_text_dict(res_iterator)
-            time.sleep(0.1)
+            time.sleep(self.parameters.sleep_time)
 
             ### get image urls
             res_iterator = get_tweets_by_dancer_id(
-                self.api, friend.id, since_id=since_id, n_max_items=n_max_items
+                self.api, friend.id, since_id=since_id, n_max_items=int(self.parameters.max_items)
             )
             image_url_dict = self.__get_image_url_dict(res_iterator)
 
@@ -77,10 +97,7 @@ class FriendsTweetsPipeline:
             tweet_id_list.extend(map(int, text_dict.keys()))
             tweet_id_list.extend(map(int, image_url_dict.keys()))
 
-            time.sleep(0.1)
-
-            if i_friend > 5:
-                break
+            time.sleep(self.parameters.sleep_time)
 
         res_dict["max_tweet_id"] = max(tweet_id_list)
         res_dict["min_tweet_id"] = min(tweet_id_list)

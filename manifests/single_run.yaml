@@ -9,9 +9,29 @@ spec:
     spec:
       containers:
       - name: getter-robo
-        image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
+        image: nsakairi/getter-robo@sha256:8683fd0b54725f68a27c4e2b80168cc7633e6a1e2544ddea84edcbc75f2ad013
+        #sha256:f43363d9e9a97cde6abf27c2c441cd18a5ad9553c12fb72d2a891e605ac4924c
+        #sha256:a5e24d599a2b939c795d1535c051406953449f5e32e09d04082e99ef44b7afe0
+        #@sha256:212a158b45d81ad87eaa2bd4d63edad1dfe91709a3eb333b4da32e525d3766bf
+        #sha256:0110aa29b15c97629a8be33f15283263414ea9377c623ea05b7c6fd29381869f
+        #image: nsakairi/getter-robo@sha256:544264c665b6080ae4f0ee26261ea57c51d2b4accb82e986f1a0e0ceb886767d
         #sha256:b5aef7ca4154f2b10d4ea9682f2249fa62a4787aa256b9f8515382e935e633f5
+        env:
+        - name: ENDPOINT_URL
+          value: 192.168.1.194
         command: [python, main.py]
+        args: ['{
+          "endpoint_url": "192.168.1.194", 
+          "storage": {
+            "access_id": "sigma_chan", 
+            "access_key": "sigma_chan_dayo", 
+            "bucket": "getter_robo"
+          },
+          "tweet": {
+            "max_items": 1000,
+            "sleep_time": 1.0
+          }
+          }']
         ports:
           - containerPort: 5550
       restartPolicy: Never
